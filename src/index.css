@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #00dbe7;
+  --color-secondary: #fface8;
+  --color-bg: #121318;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: #121318;
+  color: #e3e1e9;
+  font-family: 'Geist', sans-serif;
+  margin: 0;
+}
+
+.codust-paragraph-link:visited {
+  color: #ff3b30 !important;
+}
+
+.codust-paragraph-link.is-opened {
+  color: #ff3b30 !important;
+}
+
+.codust-paragraph-link.is-active,
+.codust-paragraph-link-btn.is-active {
+  color: #ff3b30 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  border-radius: 0 !important;
+  font-weight: inherit !important;
+}
+
+.codust-paragraph-link-btn,
+.codust-paragraph-link-btn.is-active,
+.codust-paragraph-link-btn.is-active:hover,
+.codust-paragraph-link-btn.is-active:focus,
+.codust-paragraph-link-btn.is-active:focus-visible,
+.codust-paragraph-link-btn.is-active:active {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  background-image: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0d0e13; }
+::-webkit-scrollbar-thumb { background: #3a494b; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #00dbe7; }
+
+.codust-sidebar-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.codust-sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Scanline overlay */
+.scanline {
+  width: 100%; height: 100%; z-index: 100;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.015) 50%, rgba(0,0,0,0) 100%);
+  background-size: 100% 4px;
+  position: fixed; pointer-events: none; top: 0; left: 0;
+}
+
+/* Background image layer */
+.page-background {
+  position: fixed; inset: 0; z-index: -2;
+  background-image:
+    linear-gradient(180deg, rgba(10,11,15,0.72) 0%, rgba(18,19,24,0.88) 55%, rgba(18,19,24,0.97) 100%),
+    radial-gradient(circle at top right, rgba(0,219,231,0.16), transparent 28%),
+    url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: saturate(0.95);
+}
+.page-background::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(18,19,24,0.54) 0%, rgba(18,19,24,0.18) 35%, rgba(18,19,24,0.72) 100%);
+}
+
+/* Glass panels */
+.glass-panel {
+  background: rgba(18,19,24,0.78);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,219,231,0.15);
+}
+
+/* Syntax highlighting */
+.syntax-keyword { color: #ff24e4; }
+.syntax-type    { color: #00dbe7; }
+.syntax-string  { color: #ffd7f0; }
+.syntax-comment { color: #849495; }
+.syntax-fn      { color: #74f5ff; }
+.syntax-num     { color: #f9a26c; }
+
+/* Cursor blink */
+@keyframes cursor-blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+.cursor-block {
+  display: inline-block; width: 8px; height: 16px;
+  background: #00dbe7; animation: cursor-blink 1s infinite; vertical-align: middle;
+}
+
+/* Fade up animation */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.6s ease forwards; }
+.fade-up-delay-1 { animation-delay: 0.15s; opacity: 0; }
+
+/* Material Symbols icon rendering */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar layout without Tailwind utility reliance */
+.codust-nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  white-space: nowrap;
+}
+
+.codust-mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .codust-nav-desktop {
+    display: none;
+  }
+
+  .codust-mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

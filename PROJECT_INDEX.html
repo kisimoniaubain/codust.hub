@@ -1,0 +1,421 @@
+﻿<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>CODUST.HUB - Project Index</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #121318;
+      color: #e3e1e9;
+      position: relative;
+    }
+
+    .page-background {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(180deg, rgba(10, 11, 15, 0.72) 0%, rgba(18, 19, 24, 0.88) 55%, rgba(18, 19, 24, 0.97) 100%),
+        radial-gradient(circle at top right, rgba(0, 219, 231, 0.16), transparent 28%),
+        url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: saturate(0.95);
+    }
+
+    .page-background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(18, 19, 24, 0.54) 0%, rgba(18, 19, 24, 0.18) 35%, rgba(18, 19, 24, 0.72) 100%);
+    }
+    .glass-panel {
+      background: rgba(18, 19, 24, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 219, 231, 0.15);
+    }
+    .corner-bracket::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid #00dbe7;
+      border-left: 2px solid #00dbe7;
+    }
+    .corner-bracket::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid #00dbe7;
+      border-right: 2px solid #00dbe7;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-8 md:p-16">
+<div class="page-background"></div>
+<div class="max-w-4xl mx-auto">
+  
+  <!-- Header -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="material-symbols-outlined text-4xl text-cyan-400">code</span>
+      <h1 class="text-4xl md:text-5xl font-bold text-cyan-400" style="font-family: 'Space Grotesk';">CODUST.HUB</h1>
+    </div>
+    <p class="text-xl text-cyan-300" style="font-family: 'JetBrains Mono';">From coding dust to brilliance</p>
+  </div>
+
+  <!-- Project Summary -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-4">âœ¨ Project Complete</h2>
+    <p class="text-gray-300 mb-4">A full-stack, game-like coding academy platform. Users progress through modules, complete interactive quizzes, build milestone projects, and earn XP & achievements.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      <div class="bg-cyan-400/10 p-4 rounded border border-cyan-400/20">
+        <div class="text-3xl font-bold text-cyan-400">3</div>
+        <div class="text-sm text-gray-400">Pages</div>
+      </div>
+      <div class="bg-cyan-400/10 p-4 rounded border border-cyan-400/20">
+        <div class="text-3xl font-bold text-cyan-400">6</div>
+        <div class="text-sm text-gray-400">JS Files</div>
+      </div>
+      <div class="bg-cyan-400/10 p-4 rounded border border-cyan-400/20">
+        <div class="text-3xl font-bold text-cyan-400">3</div>
+        <div class="text-sm text-gray-400">Modules</div>
+      </div>
+      <div class="bg-cyan-400/10 p-4 rounded border border-cyan-400/20">
+        <div class="text-3xl font-bold text-cyan-400">100%</div>
+        <div class="text-sm text-gray-400">Functional</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Files Created -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">ðŸ“ Files Created</h2>
+    
+    <div class="space-y-4">
+      
+      <!-- Frontend Files -->
+      <div>
+        <h3 class="text-lg font-bold text-cyan-300 mb-3 flex items-center gap-2">
+          <span class="material-symbols-outlined">language</span> Frontend Pages
+        </h3>
+        <div class="space-y-2 ml-6">
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <a href="index.html" class="font-mono text-cyan-400 hover:underline">index.html</a>
+            <p class="text-sm text-gray-400">Original mission briefing UI (code editor mockup)</p>
+          </div>
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <a href="index.html" class="font-mono text-cyan-400 hover:underline">index.html</a>
+            <p class="text-sm text-gray-400">Main course timeline with progress tracking</p>
+          </div>
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <a href="lesson.html" class="font-mono text-cyan-400 hover:underline">lesson.html</a>
+            <p class="text-sm text-gray-400">Split-screen lesson view with interactive quiz</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logic Files -->
+      <div>
+        <h3 class="text-lg font-bold text-cyan-300 mb-3 flex items-center gap-2">
+          <span class="material-symbols-outlined">terminal</span> Core Logic & Data
+        </h3>
+        <div class="space-y-2 ml-6">
+          <div class="p-3 bg-magenta-400/5 border border-magenta-400/20 rounded">
+            <span class="font-mono text-magenta-400">courseData.js</span>
+            <p class="text-sm text-gray-400">All course content + CourseManager utility class</p>
+          </div>
+          <div class="p-3 bg-magenta-400/5 border border-magenta-400/20 rounded">
+            <span class="font-mono text-magenta-400">courseSchema.js</span>
+            <p class="text-sm text-gray-400">Data structure blueprint & schema definition</p>
+          </div>
+          <div class="p-3 bg-magenta-400/5 border border-magenta-400/20 rounded">
+            <span class="font-mono text-magenta-400">server.js</span>
+            <p class="text-sm text-gray-400">Express.js backend API (optional, for production)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div>
+        <h3 class="text-lg font-bold text-cyan-300 mb-3 flex items-center gap-2">
+          <span class="material-symbols-outlined">description</span> Documentation
+        </h3>
+        <div class="space-y-2 ml-6">
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <a href="README.md" class="font-mono text-cyan-400 hover:underline">README.md</a>
+            <p class="text-sm text-gray-400">Full platform documentation & API reference</p>
+          </div>
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <a href="BLUEPRINT.md" class="font-mono text-cyan-400 hover:underline">BLUEPRINT.md</a>
+            <p class="text-sm text-gray-400">Copilot prompts for extending features</p>
+          </div>
+          <div class="p-3 bg-cyan-400/5 border border-cyan-400/20 rounded">
+            <span class="font-mono text-cyan-400">package.json</span>
+            <p class="text-sm text-gray-400">Node.js dependencies</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">ðŸš€ Quick Start</h2>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="font-bold text-cyan-300 mb-3">Frontend Only (Instant)</h3>
+        <ol class="space-y-2 text-sm text-gray-300">
+          <li><span class="text-cyan-400">1.</span> Open <code class="bg-black/50 px-2 py-1 rounded">index.html</code> in your browser</li>
+          <li><span class="text-cyan-400">2.</span> No server needed!</li>
+          <li><span class="text-cyan-400">3.</span> Data saved in localStorage</li>
+          <li><span class="text-cyan-400">4.</span> Try the lesson flow</li>
+        </ol>
+      </div>
+      <div>
+        <h3 class="font-bold text-cyan-300 mb-3">With Backend (Production)</h3>
+        <ol class="space-y-2 text-sm text-gray-300">
+          <li><span class="text-cyan-400">1.</span> <code class="bg-black/50 px-2 py-1 rounded">npm install</code></li>
+          <li><span class="text-cyan-400">2.</span> <code class="bg-black/50 px-2 py-1 rounded">npm start</code></li>
+          <li><span class="text-cyan-400">3.</span> Server on port 3000</li>
+          <li><span class="text-cyan-400">4.</span> Open index.html</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">âœ¨ Features Included</h2>
+    
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Module Timeline</p>
+          <p class="text-sm text-gray-400">Visual progress map with locked/unlocked modules</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Interactive Quizzes</p>
+          <p class="text-sm text-gray-400">Multi-choice with animations, hints, and feedback</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Progress Tracking</p>
+          <p class="text-sm text-gray-400">XP, streaks, completion percentages</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Auto-Unlock System</p>
+          <p class="text-sm text-gray-400">Modules unlock when prerequisites complete</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Split-Screen Learning</p>
+          <p class="text-sm text-gray-400">Content + code + quiz all on one page</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">Mobile Responsive</p>
+          <p class="text-sm text-gray-400">Optimized for desktop, tablet, phone</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">localStorage Persistence</p>
+          <p class="text-sm text-gray-400">User progress saved automatically</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-cyan-400 mt-1">âœ“</span>
+        <div>
+          <p class="font-bold">REST API Ready</p>
+          <p class="text-sm text-gray-400">Express.js backend for scaling</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usage -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">ðŸŽ® How It Works</h2>
+    
+    <div class="space-y-6">
+      <div class="flex gap-4">
+        <div class="text-3xl font-bold text-cyan-400 w-12 text-center flex-shrink-0">1</div>
+        <div>
+          <p class="font-bold text-cyan-300">Open Dashboard</p>
+          <p class="text-sm text-gray-400">User sees timeline of modules with progress</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="text-3xl font-bold text-cyan-400 w-12 text-center flex-shrink-0">2</div>
+        <div>
+          <p class="font-bold text-cyan-300">Start Lesson</p>
+          <p class="text-sm text-gray-400">Click "CONTINUE" on any unlocked module</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="text-3xl font-bold text-cyan-400 w-12 text-center flex-shrink-0">3</div>
+        <div>
+          <p class="font-bold text-cyan-300">Learn & Answer</p>
+          <p class="text-sm text-gray-400">Read content, see code examples, answer quiz</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="text-3xl font-bold text-cyan-400 w-12 text-center flex-shrink-0">4</div>
+        <div>
+          <p class="font-bold text-cyan-300">Get Feedback</p>
+          <p class="text-sm text-gray-400">Correct = success, Wrong = hint + retry</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="text-3xl font-bold text-cyan-400 w-12 text-center flex-shrink-0">5</div>
+        <div>
+          <p class="font-bold text-cyan-300">Progress Tracked</p>
+          <p class="text-sm text-gray-400">Complete all lessons â†’ next module unlocks</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Extending Features -->
+  <section class="glass-panel corner-bracket p-8 mb-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">ðŸ”Œ Extend with Copilot</h2>
+    
+    <p class="text-gray-300 mb-6">Read <code class="bg-black/50 px-2 py-1 rounded">BLUEPRINT.md</code> for pre-written prompts to add:</p>
+    
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">Authentication</p>
+        <p class="text-xs text-gray-400">Login/signup system</p>
+      </div>
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">GitHub Integration</p>
+        <p class="text-xs text-gray-400">Project submission</p>
+      </div>
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">Leaderboard</p>
+        <p class="text-xs text-gray-400">Top students by XP</p>
+      </div>
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">Forums</p>
+        <p class="text-xs text-gray-400">Module discussions</p>
+      </div>
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">Analytics</p>
+        <p class="text-xs text-gray-400">Learning stats dashboard</p>
+      </div>
+      <div class="p-3 bg-magenta-400/10 border border-magenta-400/20 rounded">
+        <p class="font-bold text-magenta-400">Code Editor</p>
+        <p class="text-xs text-gray-400">Mini editor for coding challenges</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <section class="glass-panel corner-bracket p-8 relative">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6">ðŸ—ºï¸ Where to Go</h2>
+    
+    <div class="space-y-4">
+      <div class="p-4 bg-cyan-400/5 border border-cyan-400/20 rounded">
+        <p class="font-bold text-cyan-400 mb-2">Start Learning</p>
+        <a href="index.html" class="text-cyan-300 hover:text-cyan-100 flex items-center gap-2">
+          <span class="material-symbols-outlined">arrow_forward</span>
+          Open index.html
+        </a>
+      </div>
+      
+      <div class="p-4 bg-cyan-400/5 border border-cyan-400/20 rounded">
+        <p class="font-bold text-cyan-400 mb-2">Edit Content</p>
+        <p class="text-sm text-gray-300 mb-2">Open courseData.js to add/edit lessons and courses</p>
+        <code class="bg-black/50 px-2 py-1 rounded text-xs">CourseManager.completeLesson(courseId, moduleId, lessonId)</code>
+      </div>
+
+      <div class="p-4 bg-cyan-400/5 border border-cyan-400/20 rounded">
+        <p class="font-bold text-cyan-400 mb-2">Add Features</p>
+        <p class="text-sm text-gray-300">See BLUEPRINT.md for 10+ feature prompts ready for Copilot</p>
+      </div>
+
+      <div class="p-4 bg-cyan-400/5 border border-cyan-400/20 rounded">
+        <p class="font-bold text-cyan-400 mb-2">Deploy</p>
+        <p class="text-sm text-gray-300">Frontend â†’ Netlify/Vercel | Backend â†’ Render/Railway</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid rgba(58,73,75,0.3); padding:32px 24px 40px; position:relative; z-index:1; margin-top:48px;">
+    <div style="max-width:1280px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr; gap:32px; margin-bottom:32px;" class="footer-grid">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <span class="material-symbols-outlined" style="color:#00dbe7; font-variation-settings:'FILL' 1;">code</span>
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#00dbe7;">Codust<span style="color:#e3e1e9;">.hub</span></span>
+          </div>
+          <p style="font-size:13px; color:#849495; line-height:1.6; max-width:260px;">A free coding education platform. Learn programming from beginner to pro with structured courses and real examples.</p>
+        </div>
+        <div>
+          <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Learn</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+            <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">All Tutorials</a></li>
+            <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+            <li><a href="lesson.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Practice Problems</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Topics</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+            <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Python</a></li>
+            <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">JavaScript</a></li>
+            <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">HTML &amp; CSS</a></li>
+            <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Data Structures</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Platform</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+            <li><a href="index.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Home</a></li>
+            <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+            <li><a href="login.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(58,73,75,0.3); padding-top:20px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center;">
+        <p style="font-size:12px; color:#849495;">© 2026 Codust.hub — Free coding education for everyone.</p>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#849495;">Built with <span style="color:#00dbe7;">{ }</span> and passion</p>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr !important; } }
+  </style>
+
+</div>
+</body>
+</html>
+

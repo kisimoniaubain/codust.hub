@@ -1,0 +1,82 @@
+export const HTML_TH_TAG_CONTENT = {
+  title: 'HTML <th> Tag (Header)',
+  lastUpdated: '3 Apr, 2026',
+  intro:
+    'The <th> tag defines table header cells in HTML, helping label and organize columns or rows. Header text is bold and centered by default, so it is visually distinct from normal data cells.',
+  highlights: [
+    'Used to display header information in a table, such as column titles.',
+    'Visually different from <td> cells, which usually show regular left-aligned data.',
+  ],
+  primaryCode: `<!DOCTYPE html>\n<html>\n<head>\n    <title></title>\n</head>\n<body>\n    <table border='1'>\n      <tr>\n        <th>Name</th>\n        <th>Age</th>\n      </tr>\n      <tr>\n        <td>Roy</td>\n        <td>22</td>\n      </tr>\n    </table>\n</body>\n</html>`,
+  primaryNotes: [
+    '<th> is used to create table headers like Name and Age.',
+    'Header text appears bold and centered by default.',
+  ],
+  syntax: '<th> Contents... </th>',
+  note: 'The <th> tag also supports global attributes and event attributes in HTML.',
+  html5AttributesTitle: 'HTML5 Attributes',
+  html5Attributes: [
+    { name: 'abbr', description: 'Defines an abbreviated version of the text content in a header cell.' },
+    { name: 'colspan', description: 'Specifies how many columns a header cell should span.' },
+    { name: 'headers', description: 'Specifies one or more header cells a data cell is related to.' },
+    { name: 'rowspan', description: 'Specifies how many rows a header cell should span.' },
+    { name: 'scope', description: 'Specifies the scope of the header content.' },
+  ],
+  removedAttributesTitle: 'HTML4.01 Attributes Removed in HTML5',
+  removedAttributes: [
+    { name: 'align', description: 'Sets alignment of text content.' },
+    { name: 'axis', description: 'Categorizes header cells.' },
+    { name: 'bgcolor', description: 'Sets the background color of a header cell.' },
+    { name: 'char', description: 'Aligns content to a character.' },
+    { name: 'charoff', description: 'Sets character offset used with the char attribute.' },
+    { name: 'height', description: 'Sets the height of a header cell.' },
+    { name: 'valign', description: 'Sets vertical alignment of text content.' },
+    { name: 'width', description: 'Sets the width of a header cell.' },
+  ],
+  exampleOneTitle: 'Example 1: Implementation of <th> tag in HTML',
+  exampleOneCode: `<!DOCTYPE html>\n<html>\n<body>\n    <table>\n        <thead>\n            <tr>\n                <th>Name</th>\n                <th>User Id</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td>Lucas</td>\n                <td>@LucasTin</td>\n            </tr>\n            <tr>\n                <td>GeeksforGeeks</td>\n                <td>@geeks</td>\n            </tr>\n        </tbody>\n    </table>\n</body>\n</html>`,
+  exampleOneNotes: [
+    'Creates a table with two column headers: Name and User Id.',
+    'Adds two rows of data: Lucas/@LucasTin and GeeksforGeeks/@geeks.',
+  ],
+  exampleTwoTitle: 'Example 2: Styled table headers with <th>',
+  exampleTwoCode: `<!DOCTYPE html>\n<html lang="en">\n<head>\n    <title></title>\n    <style>\n        body {\n            text-align: center;\n        }\n        th,\n        td {\n            border: 1px solid #dddddd;\n            padding: 8px;\n        }\n        table {\n            margin: 10px auto;\n        }\n        th {\n            background-color: #f2f2f2;\n        }\n    </style>\n</head>\n<body>\n    <h1 style="color: green;">GeeksforGeeks</h1>\n    <h2>Sample Table with <code>&lt;th&gt;</code> Tag</h2>\n    <table>\n        <tr>\n            <th>Header 1</th>\n            <th>Header 2</th>\n            <th>Header 3</th>\n        </tr>\n        <tr>\n            <td>Row 1, Cell 1</td>\n            <td>Row 1, Cell 2</td>\n            <td>Row 1, Cell 3</td>\n        </tr>\n        <tr>\n            <td>Row 2, Cell 1</td>\n            <td>Row 2, Cell 2</td>\n            <td>Row 2, Cell 3</td>\n        </tr>\n    </table>\n</body>\n</html>`,
+  exampleTwoNotes: [
+    'The first row uses <th> to create three bold, centered table headers.',
+    'The next rows use <td> to add normal data cells under each header.',
+  ],
+  outputImage: 'https://media.geeksforgeeks.org/wp-content/uploads/20260401143838603192/Screenshot-2023-12-15-151948.png',
+  quiz: {
+    question: 'By default, how is the text inside a <th> tag displayed?',
+    options: [
+      'A. Left-aligned and normal weight',
+      'B. Bold and centered',
+      'C. Italic and underlined',
+      'D. Right-aligned and bold',
+    ],
+    answer: 'B. Bold and centered',
+  },
+  author: {
+    name: 'Vishal_Khoda',
+    initial: 'V',
+    url: 'https://www.geeksforgeeks.org/html/html-th-tag/',
+  },
+  reactions: 5,
+  articleTags: ['Web Technologies', 'HTML', 'HTML-Tags'],
+  courseUrl: 'https://www.geeksforgeeks.org/html/html-th-tag/',
+  referenceUrl: 'https://www.geeksforgeeks.org/html/html-th-tag/',
+  explore: [
+    {
+      heading: 'Explore',
+      items: [
+        { label: 'HTML Basics', url: 'https://www.geeksforgeeks.org/html/html-introduction/' },
+        { label: 'Structure & Elements', url: 'https://www.geeksforgeeks.org/html/html-elements/' },
+        { label: 'Lists', url: 'https://www.geeksforgeeks.org/html/html-lists/' },
+        { label: 'Visuals & Media', url: 'https://www.geeksforgeeks.org/html/html-media/' },
+        { label: 'Layouts & Designs', url: 'https://www.geeksforgeeks.org/html/html-layout/' },
+        { label: 'Projects & Advanced Topics', url: 'https://www.geeksforgeeks.org/html/html-projects/' },
+        { label: 'Tutorial References', url: 'https://www.geeksforgeeks.org/html/html-tutorial/' },
+      ],
+    },
+  ],
+};

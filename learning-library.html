@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LEARNING LIBRARY // CODUST.HUB</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed-dim": "#00dbe7",
+            "background": "#121318",
+            "surface-container-lowest": "#0d0e13",
+            "surface-container-low": "#1a1b21",
+            "surface": "#1e1f25",
+            "surface-container-high": "#292a2f",
+            "secondary": "#fface8",
+            "secondary-container": "#ff24e4",
+            "on-surface": "#e3e1e9",
+            "on-surface-variant": "#b9cacb",
+            "outline": "#849495",
+            "outline-variant": "#3a494b"
+          },
+          "spacing": {
+            "gutter": "16px",
+            "panel-padding": "12px",
+            "stack-md": "24px",
+            "margin-safe": "32px"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-xs": ["JetBrains Mono"],
+            "body-md": ["Geist"],
+            "stats-mono": ["JetBrains Mono"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #121318;
+      color: #e3e1e9;
+      position: relative;
+    }
+
+    .page-background {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(180deg, rgba(10, 11, 15, 0.72) 0%, rgba(18, 19, 24, 0.88) 55%, rgba(18, 19, 24, 0.97) 100%),
+        radial-gradient(circle at top right, rgba(0, 219, 231, 0.16), transparent 28%),
+        url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: saturate(0.95);
+    }
+
+    .page-background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(18, 19, 24, 0.54) 0%, rgba(18, 19, 24, 0.18) 35%, rgba(18, 19, 24, 0.72) 100%);
+    }
+
+    .glass-panel {
+      background: rgba(18, 19, 24, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 219, 231, 0.15);
+    }
+
+    .corner-bracket::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid #00dbe7;
+      border-left: 2px solid #00dbe7;
+    }
+
+    .corner-bracket::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid #00dbe7;
+      border-right: 2px solid #00dbe7;
+    }
+
+    .category-header {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .category-header:hover {
+      background: rgba(0, 219, 231, 0.1);
+    }
+
+    .category-header.expanded {
+      background: rgba(0, 219, 231, 0.15);
+    }
+
+    .chevron-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .chevron-icon.expanded {
+      transform: rotate(180deg);
+    }
+
+    .topic-item {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .topic-item:hover {
+      background: rgba(0, 219, 231, 0.1);
+      padding-left: 20px;
+    }
+
+    .topic-item.active {
+      background: rgba(0, 219, 231, 0.3);
+      border-left: 3px solid #00dbe7;
+      padding-left: 17px;
+    }
+
+    .content-area {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .scanline {
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+      background-size: 100% 4px;
+      position: fixed;
+      pointer-events: none;
+    }
+
+    .nav-link {
+      color: #b9cacb;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      color: #00dbe7;
+    }
+
+    .btn-primary {
+      background: #00dbe7;
+      color: #00363a;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background: #74f5ff;
+      box-shadow: 0 0 20px rgba(0,219,231,0.4);
+    }
+
+    .sidebar-container {
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+
+<header style="position:fixed; top:0; width:100%; z-index:50; background:rgba(18,19,24,0.85); backdrop-filter:blur(20px); border-bottom:1px solid rgba(58,73,75,0.4);">
+  <div style="max-width:1280px; margin:0 auto; padding:0 24px; height:64px; display:flex; align-items:center; justify-content:space-between;">
+    <a href="index.html" style="display:flex; align-items:center; gap:8px; text-decoration:none;">
+      <span class="material-symbols-outlined" style="color:#00dbe7; font-variation-settings:'FILL' 1;">code</span>
+      <span style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:#00dbe7; letter-spacing:-0.03em;">Codust<span style="color:#e3e1e9;">.hub</span></span>
+    </a>
+    <nav style="display:none; gap:32px; align-items:center;" class="md-nav">
+      <a href="learning-library.html" class="nav-link">Tutorials</a>
+      <a href="index.html" class="nav-link">Courses</a>
+      <a href="lesson.html" class="nav-link">Practice</a>
+      <a href="index.html#topics" class="nav-link">Topics</a>
+      <a href="learning-library.html" class="nav-link">Library</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:10px;" id="nav-auth">
+      <a href="login.html" id="nav-signin" class="nav-link" style="font-size:14px; padding:6px 14px; border:1px solid rgba(58,73,75,0.6); border-radius:6px;">Sign In</a>
+      <a href="login.html#signup" id="nav-signup" onclick="localStorage.setItem('codust_open_tab','signup')" class="btn-primary" style="font-size:14px; padding:8px 18px;">
+        <span class="material-symbols-outlined" style="font-size:16px;">rocket_launch</span>
+        Sign Up Free
+      </a>
+      <div id="nav-user" style="display:none; align-items:center; position:relative;">
+        <button id="user-menu-btn" onclick="toggleUserMenu()" style="display:flex; align-items:center; gap:8px; background:transparent; border:none; border-radius:8px; padding:6px 10px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,219,231,0.14)'" onmouseout="this.style.background='rgba(0,219,231,0.08)'">
+          <span class="material-symbols-outlined" style="color:#00dbe7; font-size:18px; font-variation-settings:'FILL' 1;">account_circle</span>
+          <span id="nav-user-name" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#00dbe7;"></span>
+          <span class="material-symbols-outlined" style="color:#849495; font-size:16px;" id="user-chevron">expand_more</span>
+        </button>
+        <div id="user-dropdown" style="display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:180px; background:rgba(18,19,24,0.98); border:1px solid rgba(0,219,231,0.2); border-radius:10px; overflow:hidden; box-shadow:0 12px 32px rgba(0,0,0,0.5); z-index:200;">
+          <div style="padding:12px 16px; border-bottom:1px solid rgba(58,73,75,0.3);">
+            <p style="font-size:12px; color:#849495; margin:0;">Signed in as</p>
+            <p id="dropdown-user-name" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#00dbe7; margin:2px 0 0;"></p>
+          </div>
+          <a href="index.html" style="display:flex; align-items:center; gap:10px; padding:11px 16px; color:#b9cacb; text-decoration:none; font-size:13px; transition:background 0.15s;" onmouseover="this.style.background='rgba(0,219,231,0.07)'" onmouseout="this.style.background='transparent'">
+            <span class="material-symbols-outlined" style="font-size:16px;">home</span> Home
+          </a>
+          <a href="course-hub.html" style="display:flex; align-items:center; gap:10px; padding:11px 16px; color:#b9cacb; text-decoration:none; font-size:13px; transition:background 0.15s;" onmouseover="this.style.background='rgba(0,219,231,0.07)'" onmouseout="this.style.background='transparent'">
+            <span class="material-symbols-outlined" style="font-size:16px;">school</span> My Courses
+          </a>
+          <div style="border-top:1px solid rgba(58,73,75,0.3); padding:6px;">
+            <button onclick="logout()" style="width:100%; display:flex; align-items:center; gap:10px; padding:9px 10px; color:#ffb4ab; background:none; border:none; border-radius:6px; font-size:13px; cursor:pointer; font-family:'Geist',sans-serif; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,180,171,0.1)'" onmouseout="this.style.background='transparent'">
+              <span class="material-symbols-outlined" style="font-size:16px;">logout</span> Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  (function() {
+    const user = JSON.parse(localStorage.getItem('codust_current_user') || 'null');
+    if (user) {
+      document.getElementById('nav-signin').style.display = 'none';
+      document.getElementById('nav-signup').style.display = 'none';
+      document.getElementById('nav-user').style.display = 'flex';
+      const name = user.firstName + ' ' + (user.lastName || '');
+      document.getElementById('nav-user-name').textContent = name;
+      document.getElementById('dropdown-user-name').textContent = name;
+    }
+  })();
+  function logout() { localStorage.removeItem('codust_current_user'); location.reload(); }
+  function toggleUserMenu() {
+    const dd = document.getElementById('user-dropdown');
+    const ch = document.getElementById('user-chevron');
+    const open = dd.style.display === 'block';
+    dd.style.display = open ? 'none' : 'block';
+    ch.textContent = open ? 'expand_more' : 'expand_less';
+  }
+  document.addEventListener('click', function(e) {
+    const btn = document.getElementById('user-menu-btn');
+    const dd = document.getElementById('user-dropdown');
+    if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+      dd.style.display = 'none';
+      const ch = document.getElementById('user-chevron');
+      if (ch) ch.textContent = 'expand_more';
+    }
+  });
+</script>
+
+<style>
+  @media (min-width: 768px) { .md-nav { display: flex !important; } }
+</style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden bg-background">
+<div class="page-background"></div>
+<div class="scanline"></div>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-xl border-b border-outline-variant/30">
+  <div class="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex items-center gap-2 no-underline">
+      <span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">code</span>
+      <span class="font-headline-lg-mobile text-lg tracking-tighter text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,219,231,0.5)]">Codust<span class="text-on-surface">.hub</span></span>
+    </a>
+    <nav class="flex items-center gap-4 md:gap-6 text-sm flex-wrap justify-end">
+      <a href="index.html" class="text-on-surface-variant hover:text-primary-fixed-dim transition no-underline">Home</a>
+      <a href="course-hub.html" class="text-on-surface-variant hover:text-primary-fixed-dim transition no-underline">Course Hub</a>
+      <a href="learning-library.html" class="text-primary-fixed-dim no-underline">Library</a>
+      <a href="lesson.html" class="text-on-surface-variant hover:text-primary-fixed-dim transition no-underline">Practice</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:10px;" id="nav-auth">
+      <a href="login.html" id="nav-signin" class="nav-link" style="font-size:14px; padding:6px 14px; border:1px solid rgba(58,73,75,0.6); border-radius:6px;">Sign In</a>
+      <a href="login.html#signup" id="nav-signup" onclick="localStorage.setItem('codust_open_tab','signup')" class="btn-primary" style="font-size:14px; padding:8px 18px;">
+        <span class="material-symbols-outlined" style="font-size:16px;">rocket_launch</span>
+        Sign Up Free
+      </a>
+      <div id="nav-user" style="display:none; align-items:center; position:relative;">
+        <button id="user-menu-btn" onclick="toggleUserMenu()" style="display:flex; align-items:center; gap:8px; background:transparent; border:none; border-radius:8px; padding:6px 10px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(0,219,231,0.14)'" onmouseout="this.style.background='rgba(0,219,231,0.08)'">
+          <span class="material-symbols-outlined" style="color:#00dbe7; font-size:18px; font-variation-settings:'FILL' 1;">account_circle</span>
+          <span id="nav-user-name" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#00dbe7;"></span>
+          <span class="material-symbols-outlined" style="color:#849495; font-size:16px;" id="user-chevron">expand_more</span>
+        </button>
+        <div id="user-dropdown" style="display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:180px; background:rgba(18,19,24,0.98); border:1px solid rgba(0,219,231,0.2); border-radius:10px; overflow:hidden; box-shadow:0 12px 32px rgba(0,0,0,0.5); z-index:200;">
+          <div style="padding:12px 16px; border-bottom:1px solid rgba(58,73,75,0.3);">
+            <p style="font-size:12px; color:#849495; margin:0;">Signed in as</p>
+            <p id="dropdown-user-name" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#00dbe7; margin:2px 0 0;"></p>
+          </div>
+          <a href="index.html" style="display:flex; align-items:center; gap:10px; padding:11px 16px; color:#b9cacb; text-decoration:none; font-size:13px; transition:background 0.15s;" onmouseover="this.style.background='rgba(0,219,231,0.07)'" onmouseout="this.style.background='transparent'">
+            <span class="material-symbols-outlined" style="font-size:16px;">home</span> Home
+          </a>
+          <a href="course-hub.html" style="display:flex; align-items:center; gap:10px; padding:11px 16px; color:#b9cacb; text-decoration:none; font-size:13px; transition:background 0.15s;" onmouseover="this.style.background='rgba(0,219,231,0.07)'" onmouseout="this.style.background='transparent'">
+            <span class="material-symbols-outlined" style="font-size:16px;">school</span> My Courses
+          </a>
+          <a href="#" style="display:flex; align-items:center; gap:10px; padding:11px 16px; color:#b9cacb; text-decoration:none; font-size:13px; transition:background 0.15s;" onmouseover="this.style.background='rgba(0,219,231,0.07)'" onmouseout="this.style.background='transparent'">
+            <span class="material-symbols-outlined" style="font-size:16px;">settings</span> Settings
+          </a>
+          <div style="border-top:1px solid rgba(58,73,75,0.3); padding:6px;">
+            <button onclick="logout()" style="width:100%; display:flex; align-items:center; gap:10px; padding:9px 10px; color:#ffb4ab; background:none; border:none; border-radius:6px; font-size:13px; cursor:pointer; font-family:'Geist',sans-serif; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,180,171,0.1)'" onmouseout="this.style.background='transparent'">
+              <span class="material-symbols-outlined" style="font-size:16px;">logout</span> Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex flex-1 pt-16 overflow-hidden gap-4 px-gutter md:px-margin-safe">
+  
+  <!-- Sidebar: Accordion Navigation -->
+  <aside class="w-full md:w-80 glass-panel corner-bracket overflow-hidden flex flex-col">
+    
+    <div class="sidebar-container">
+      <div id="sidebar-content">
+        <!-- Accordion items will be inserted here -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content Area: Topic Details -->
+  <section class="flex-1 glass-panel corner-bracket p-panel-padding overflow-y-auto hidden md:flex flex-col">
+    <div id="content-area" class="content-area">
+      <div class="text-center py-12">
+        <span class="material-symbols-outlined text-5xl text-outline/30 mb-4">library_books</span>
+        <h2 class="text-2xl font-bold text-on-surface/50 mt-4">Select a topic to begin</h2>
+        <p class="text-on-surface-variant mt-2">Start from the beginner fundamentals or jump to advanced concepts</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer style="border-top:1px solid rgba(58,73,75,0.3); padding:32px 24px 40px;">
+  <div style="max-width:1280px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:1fr; gap:32px; margin-bottom:32px;" class="footer-grid">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <span class="material-symbols-outlined" style="color:#00dbe7; font-variation-settings:'FILL' 1;">code</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#00dbe7;">Codust<span style="color:#e3e1e9;">.hub</span></span>
+        </div>
+        <p style="font-size:13px; color:#849495; line-height:1.6; max-width:260px;">A free coding education platform. Learn programming from beginner to pro with structured courses and real examples.</p>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Learn</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">All Tutorials</a></li>
+          <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+          <li><a href="lesson.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Practice Problems</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Topics</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Python</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">JavaScript</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">HTML &amp; CSS</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Data Structures</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Platform</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="index.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Home</a></li>
+          <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+          <li><a href="login.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Sign In</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(58,73,75,0.3); padding-top:20px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center;">
+      <p style="font-size:12px; color:#849495;">© 2026 Codust.hub — Free coding education for everyone.</p>
+      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#849495;">Built with <span style="color:#00dbe7;">{ }</span> and passion</p>
+    </div>
+  </div>
+</footer>
+<style>
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr !important; } }
+</style>
+
+<script src="sidebarData.js"></script>
+<script>
+  let currentTopic = null;
+
+  function initializeSidebar() {
+    const sidebarContent = document.getElementById('sidebar-content');
+    
+    codustSidebarData.forEach((categoryData, categoryIndex) => {
+      // Create category container
+      const categoryDiv = document.createElement('div');
+      categoryDiv.className = 'border-b border-outline-variant/10';
+      
+      // Category header
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'category-header p-panel-padding flex items-center justify-between';
+      headerDiv.setAttribute('data-category', categoryIndex);
+      
+      const headerLabel = document.createElement('div');
+      headerLabel.className = 'flex items-center gap-2 flex-1';
+      headerLabel.innerHTML = `
+        <span class="material-symbols-outlined text-primary-fixed-dim text-sm">${categoryData.icon}</span>
+        <span class="font-label-xs text-label-xs text-on-surface">${categoryData.category}</span>
+      `;
+      
+      const chevron = document.createElement('span');
+      chevron.className = 'material-symbols-outlined text-outline/50 chevron-icon text-sm';
+      chevron.textContent = 'expand_more';
+      
+      headerDiv.appendChild(headerLabel);
+      headerDiv.appendChild(chevron);
+      
+      // Topics container
+      const topicsDiv = document.createElement('div');
+      topicsDiv.className = 'topics-container bg-surface-container-lowest/30 hidden';
+      topicsDiv.setAttribute('data-category', categoryIndex);
+      
+      categoryData.topics.forEach((topic, topicIndex) => {
+        const topicBtn = document.createElement('button');
+        topicBtn.className = 'topic-item w-full text-left px-4 py-2 flex flex-col gap-1 border-l-0 border-outline-variant/20 hover:border-l-2 transition-all';
+        topicBtn.setAttribute('data-slug', topic.slug);
+        topicBtn.setAttribute('data-topic-index', topicIndex);
+        topicBtn.innerHTML = `
+          <span class="font-label-xs text-label-xs text-primary-fixed-dim">${topic.name}</span>
+          <span class="text-xs text-on-surface-variant">${topic.description}</span>
+        `;
+        
+        topicBtn.addEventListener('click', () => selectTopic(topic, categoryData.category));
+        topicsDiv.appendChild(topicBtn);
+      });
+      
+      categoryDiv.appendChild(headerDiv);
+      categoryDiv.appendChild(topicsDiv);
+      sidebarContent.appendChild(categoryDiv);
+      
+      // Add click handler for category expansion
+      headerDiv.addEventListener('click', () => toggleCategory(categoryIndex, chevron, topicsDiv));
+    });
+    
+    // Expand first category by default
+    expandCategory(0);
+  }
+
+  function toggleCategory(index, chevron, topicsDiv) {
+    if (topicsDiv.classList.contains('hidden')) {
+      expandCategory(index);
+    } else {
+      collapseCategory(index);
+    }
+  }
+
+  function expandCategory(index) {
+    const header = document.querySelector(`[data-category="${index}"].category-header`);
+    const topics = document.querySelector(`[data-category="${index}"].topics-container`);
+    const chevron = header.querySelector('.chevron-icon');
+    
+    header.classList.add('expanded');
+    topics.classList.remove('hidden');
+    chevron.classList.add('expanded');
+  }
+
+  function collapseCategory(index) {
+    const header = document.querySelector(`[data-category="${index}"].category-header`);
+    const topics = document.querySelector(`[data-category="${index}"].topics-container`);
+    const chevron = header.querySelector('.chevron-icon');
+    
+    header.classList.remove('expanded');
+    topics.classList.add('hidden');
+    chevron.classList.remove('expanded');
+  }
+
+  function selectTopic(topic, category) {
+    currentTopic = { ...topic, category };
+    
+    // Update active state
+    document.querySelectorAll('.topic-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    document.querySelector(`[data-slug="${topic.slug}"]`).classList.add('active');
+    
+    // Display content
+    displayTopicContent(topic, category);
+  }
+
+  function displayTopicContent(topic, category) {
+    const contentArea = document.getElementById('content-area');
+    
+    contentArea.innerHTML = `
+      <div class="content-area">
+        <div class="mb-stack-md pb-stack-md border-b border-outline-variant/20">
+          <span class="font-label-xs text-label-xs text-secondary tracking-widest">${category}</span>
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mt-2">${topic.name}</h2>
+          <p class="text-on-surface-variant mt-2">${topic.description}</p>
+        </div>
+        
+        <div class="space-y-stack-md">
+          <div>
+            <h3 class="font-bold text-primary-fixed-dim mb-2">ðŸ“š Overview</h3>
+            <p class="text-on-surface-variant">
+              This lesson covers the fundamentals of <strong>${topic.name.toLowerCase()}</strong>. 
+              You'll learn practical concepts that you can apply immediately in your projects.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-bold text-primary-fixed-dim mb-2">ðŸŽ¯ Learning Outcomes</h3>
+            <ul class="space-y-1 text-on-surface-variant text-sm">
+              <li class="flex gap-2">
+                <span class="text-primary-fixed-dim">âœ“</span>
+                <span>Understand the core concepts of ${topic.name}</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary-fixed-dim">âœ“</span>
+                <span>Apply these concepts in real-world projects</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary-fixed-dim">âœ“</span>
+                <span>Prepare for more advanced topics</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-secondary-container/10 border border-secondary-container/30 rounded p-panel-padding">
+            <div class="flex gap-2 items-start">
+              <span class="material-symbols-outlined text-secondary text-sm flex-shrink-0">info</span>
+              <div>
+                <p class="font-bold text-secondary mb-1">Coming Soon</p>
+                <p class="text-xs text-on-surface-variant">
+                  Full lesson content, code examples, and interactive exercises are being prepared for this topic.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <button class="w-full md:w-auto px-4 py-2 bg-primary-fixed-dim text-background font-bold rounded hover:brightness-110 transition-all">
+              Start Learning
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function searchTopicsInUI() {
+    const query = document.getElementById('search-input').value.toLowerCase();
+    
+    if (query.length === 0) {
+      document.querySelectorAll('.topic-item').forEach(item => {
+        item.style.display = 'flex';
+      });
+      return;
+    }
+    
+    const results = searchTopics(query);
+    const resultSlugs = results.map(t => t.slug);
+    
+    document.querySelectorAll('.topic-item').forEach(item => {
+      const slug = item.getAttribute('data-slug');
+      if (resultSlugs.includes(slug)) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', initializeSidebar);
+  
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', searchTopicsInUI);
+  }
+</script>
+</body>
+</html>
+
+
+

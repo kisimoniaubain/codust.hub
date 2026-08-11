@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Sign In — Codust.hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: #121318; color: #e3e1e9; font-family: 'Geist', sans-serif; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+
+    .page-background {
+      position: fixed; inset: 0; z-index: -2;
+      background-image:
+        linear-gradient(180deg, rgba(10, 11, 15, 0.72) 0%, rgba(18, 19, 24, 0.88) 55%, rgba(18, 19, 24, 0.97) 100%),
+        radial-gradient(circle at top right, rgba(0, 219, 231, 0.16), transparent 28%),
+        url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: saturate(0.95);
+    }
+
+    .page-background::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(18, 19, 24, 0.54) 0%, rgba(18, 19, 24, 0.18) 35%, rgba(18, 19, 24, 0.72) 100%);
+    }
+
+    .scanline {
+      width: 100%; height: 100%; z-index: 100;
+      background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.015) 50%, rgba(0,0,0,0) 100%);
+      background-size: 100% 4px; position: fixed; pointer-events: none; top: 0; left: 0;
+    }
+
+    /* Animated background grid */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,219,231,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,219,231,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .glass-card {
+      background: rgba(18,19,24,0.85);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(0,219,231,0.18);
+      border-radius: 20px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(13,14,19,0.8);
+      border: 1px solid rgba(58,73,75,0.6);
+      border-radius: 8px;
+      padding: 12px 16px 12px 44px;
+      color: #e3e1e9;
+      font-family: 'Geist', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-field:focus {
+      border-color: #00dbe7;
+      box-shadow: 0 0 0 3px rgba(0,219,231,0.12);
+    }
+    .input-field::placeholder { color: #849495; }
+
+    .input-wrapper { position: relative; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: #849495; font-size: 18px; pointer-events: none;
+    }
+    .input-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      color: #849495; font-size: 18px; cursor: pointer; background: none; border: none;
+      transition: color 0.2s;
+    }
+    .input-toggle:hover { color: #00dbe7; }
+
+    .btn-primary {
+      width: 100%; background: #00dbe7; color: #00363a; font-weight: 700;
+      padding: 13px; border-radius: 8px; border: none; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif; font-size: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: #74f5ff; box-shadow: 0 0 24px rgba(0,219,231,0.4); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-google {
+      width: 100%;
+      background: rgba(26,27,33,0.9);
+      border: 1px solid rgba(58,73,75,0.6);
+      color: #e3e1e9; font-weight: 500;
+      padding: 12px; border-radius: 8px; cursor: pointer;
+      font-family: 'Geist', sans-serif; font-size: 15px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all 0.2s;
+    }
+    .btn-google:hover { border-color: rgba(0,219,231,0.4); background: rgba(0,219,231,0.06); }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px; color: #849495; font-size: 13px;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: rgba(58,73,75,0.5);
+    }
+
+    .error-msg {
+      background: rgba(255,180,171,0.1); border: 1px solid rgba(255,180,171,0.3);
+      border-radius: 8px; padding: 10px 14px;
+      color: #ffb4ab; font-size: 13px;
+      display: none; align-items: center; gap: 8px;
+    }
+    .error-msg.show { display: flex; }
+
+    .success-msg {
+      background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3);
+      border-radius: 8px; padding: 10px 14px;
+      color: #00e676; font-size: 13px;
+      display: none; align-items: center; gap: 8px;
+    }
+    .success-msg.show { display: flex; }
+
+    .tab-btn {
+      flex: 1; padding: 10px; font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      background: none; border: none; color: #849495; cursor: pointer;
+      border-radius: 8px; transition: all 0.2s;
+    }
+    .tab-btn.active { background: rgba(0,219,231,0.12); color: #00dbe7; }
+
+    .nav-link {
+      color: #b9cacb;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-link:hover { color: #00dbe7; }
+
+    .navbar-btn-primary {
+      width: auto;
+      background: #00dbe7;
+      color: #00363a;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .navbar-btn-primary:hover { background: #74f5ff; box-shadow: 0 0 20px rgba(0,219,231,0.4); }
+
+    @keyframes fade-up {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up { animation: fade-up 0.5s ease forwards; }
+
+    .strength-bar { height: 4px; border-radius: 2px; transition: all 0.3s; }
+  </style>
+</head>
+<body>
+<div class="page-background"></div>
+<div class="scanline"></div>
+<div class="bg-grid"></div>
+
+<!-- Main -->
+<main style="flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px 40px; position:relative; z-index:1;">
+  <div style="width:100%; max-width:440px;" class="fade-up">
+
+    <!-- Logo mark -->
+    <div style="text-align:center; margin-bottom:32px;">
+      <a href="index.html" style="display:inline-flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; margin-bottom:20px;">
+        <span class="material-symbols-outlined" style="color:#00dbe7; font-size:32px; font-variation-settings:'FILL' 1;">code</span>
+        <span style="font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:700; color:#00dbe7; letter-spacing:-0.03em;">Codust<span style="color:#e3e1e9;">.hub</span></span>
+      </a>
+      <h1 style="font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:#e3e1e9; margin-bottom:6px;">Welcome back</h1>
+      <p style="color:#849495; font-size:14px;">Your coding journey starts here</p>
+    </div>
+
+    <!-- Card -->
+    <div class="glass-card" style="padding:32px;">
+
+      <!-- Tabs -->
+      <div style="display:flex; gap:4px; background:rgba(13,14,19,0.6); border-radius:10px; padding:4px; margin-bottom:28px;">
+        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Error / Success messages -->
+      <div class="error-msg" id="error-msg">
+        <span class="material-symbols-outlined" style="font-size:16px; flex-shrink:0;">error</span>
+        <span id="error-text">Invalid email or password.</span>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <span class="material-symbols-outlined" style="font-size:16px; flex-shrink:0;">check_circle</span>
+        <span id="success-text">Account created! Redirecting...</span>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form" onsubmit="handleLogin(event)" style="display:flex; flex-direction:column; gap:18px;">
+        <div>
+          <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">Email</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">mail</span>
+            <input type="email" id="login-email" class="input-field" placeholder="you@example.com" required/>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase;">Password</label>
+            <a href="#" style="font-size:12px; color:#00dbe7; text-decoration:none;" onclick="showForgot()">Forgot password?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input type="password" id="login-password" class="input-field" placeholder="Enter your password" required/>
+            <button type="button" class="input-toggle material-symbols-outlined" id="login-pw-toggle" onclick="togglePw('login-password','login-pw-toggle')">visibility_off</button>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="remember-me" style="width:16px; height:16px; accent-color:#00dbe7; cursor:pointer;"/>
+          <label for="remember-me" style="font-size:13px; color:#b9cacb; cursor:pointer;">Remember me</label>
+        </div>
+        <button type="submit" class="btn-primary">
+          <span class="material-symbols-outlined" style="font-size:18px;">login</span>
+          Sign In
+        </button>
+
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="signup-form" onsubmit="handleSignup(event)" style="display:none; flex-direction:column; gap:18px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">First Name</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined input-icon">person</span>
+              <input type="text" id="signup-fname" class="input-field" placeholder="Alex" required/>
+            </div>
+          </div>
+          <div>
+            <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">Last Name</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined input-icon" style="left:14px;">badge</span>
+              <input type="text" id="signup-lname" class="input-field" placeholder="Dev" required/>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">Email</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">mail</span>
+            <input type="email" id="signup-email" class="input-field" placeholder="you@example.com" required/>
+          </div>
+        </div>
+        <div>
+          <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">Password</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input type="password" id="signup-password" class="input-field" placeholder="Min. 8 characters" required oninput="checkStrength(this.value)"/>
+            <button type="button" class="input-toggle material-symbols-outlined" id="signup-pw-toggle" onclick="togglePw('signup-password','signup-pw-toggle')">visibility_off</button>
+          </div>
+          <!-- Password strength -->
+          <div style="margin-top:8px;">
+            <div style="display:flex; gap:4px; margin-bottom:4px;">
+              <div class="strength-bar" id="sb1" style="flex:1; background:#3a494b;"></div>
+              <div class="strength-bar" id="sb2" style="flex:1; background:#3a494b;"></div>
+              <div class="strength-bar" id="sb3" style="flex:1; background:#3a494b;"></div>
+              <div class="strength-bar" id="sb4" style="flex:1; background:#3a494b;"></div>
+            </div>
+            <span id="strength-label" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#849495;"></span>
+          </div>
+        </div>
+        <div>
+          <label style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#849495; text-transform:uppercase; display:block; margin-bottom:6px;">Confirm Password</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock_reset</span>
+            <input type="password" id="signup-confirm" class="input-field" placeholder="Repeat password" required/>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:8px;">
+          <input type="checkbox" id="terms" style="width:16px; height:16px; margin-top:2px; accent-color:#00dbe7; cursor:pointer;" required/>
+          <label for="terms" style="font-size:13px; color:#b9cacb; cursor:pointer; line-height:1.4;">
+            I agree to the <a href="#" style="color:#00dbe7; text-decoration:none;">Terms of Service</a> and <a href="#" style="color:#00dbe7; text-decoration:none;">Privacy Policy</a>
+          </label>
+        </div>
+        <button type="submit" class="btn-primary">
+          <span class="material-symbols-outlined" style="font-size:18px;">rocket_launch</span>
+          Create Account
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="divider" style="margin: 22px 0;">or continue with</div>
+
+      <!-- Google Sign In -->
+      <button class="btn-google" onclick="handleGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+          <path d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+
+    </div>
+
+    <!-- Switch tab hint -->
+    <p id="switch-hint" style="text-align:center; margin-top:20px; font-size:13px; color:#849495;">
+      Don't have an account? <a href="#" style="color:#00dbe7; text-decoration:none; font-weight:600;" onclick="switchTab('signup'); return false;">Sign up free</a>
+    </p>
+
+  </div>
+</main>
+
+<!-- Forgot Password Modal -->
+<div id="forgot-modal" style="position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:none; align-items:center; justify-content:center; padding:24px;">
+  <div class="glass-card" style="width:100%; max-width:400px; padding:32px;">
+    <h2 style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:#e3e1e9; margin-bottom:8px;">Reset Password</h2>
+    <p style="font-size:14px; color:#849495; margin-bottom:24px;">Enter your email and we'll send you a reset link.</p>
+    <div class="input-wrapper" style="margin-bottom:20px;">
+      <span class="material-symbols-outlined input-icon">mail</span>
+      <input type="email" id="forgot-email" class="input-field" placeholder="you@example.com"/>
+    </div>
+    <div style="display:flex; gap:12px;">
+      <button onclick="closeForgot()" style="flex:1; padding:12px; border-radius:8px; border:1px solid rgba(58,73,75,0.6); background:none; color:#b9cacb; cursor:pointer; font-family:'Geist',sans-serif; font-size:14px; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,219,231,0.4)'" onmouseout="this.style.borderColor='rgba(58,73,75,0.6)'">Cancel</button>
+      <button onclick="sendReset()" style="flex:1; padding:12px; border-radius:8px; border:none; background:#00dbe7; color:#00363a; font-weight:700; cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:14px; transition:all 0.2s;" onmouseover="this.style.background='#74f5ff'" onmouseout="this.style.background='#00dbe7'">Send Link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Seed a default demo account if no users exist yet
+  (function seedDemo() {
+    const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
+    const demoExists = users.find(u => u.email === 'demo@codust.hub');
+    if (!demoExists) {
+      users.push({ firstName: 'Demo', lastName: 'Coder', email: 'demo@codust.hub', password: 'Demo1234!', joinDate: new Date().toISOString() });
+      localStorage.setItem('codust_users', JSON.stringify(users));
+    }
+  })();
+
+  // Auto-open signup tab if flagged
+  (function() {
+    const openTab = localStorage.getItem('codust_open_tab');
+    if (openTab === 'signup' || window.location.hash === '#signup') {
+      switchTab('signup');
+      localStorage.removeItem('codust_open_tab');
+    }
+  })();
+
+  // Tab switching
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+    document.getElementById('login-form').style.display = isLogin ? 'flex' : 'none';
+    document.getElementById('signup-form').style.display = isLogin ? 'none' : 'flex';
+    document.getElementById('tab-login').className = 'tab-btn' + (isLogin ? ' active' : '');
+    document.getElementById('tab-signup').className = 'tab-btn' + (!isLogin ? ' active' : '');
+    document.getElementById('switch-hint').innerHTML = isLogin
+      ? 'Don\'t have an account? <a href="#" style="color:#00dbe7;text-decoration:none;font-weight:600;" onclick="switchTab(\'signup\');return false;">Sign up free</a>'
+      : 'Already have an account? <a href="#" style="color:#00dbe7;text-decoration:none;font-weight:600;" onclick="switchTab(\'login\');return false;">Sign in</a>';
+    hideMessages();
+  }
+
+  // Toggle password visibility
+  function togglePw(fieldId, btnId) {
+    const field = document.getElementById(fieldId);
+    const btn = document.getElementById(btnId);
+    const isHidden = field.type === 'password';
+    field.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? 'visibility' : 'visibility_off';
+  }
+
+  // Password strength checker
+  function checkStrength(value) {
+    const bars = ['sb1','sb2','sb3','sb4'];
+    const label = document.getElementById('strength-label');
+    let score = 0;
+    if (value.length >= 8) score++;
+    if (/[A-Z]/.test(value)) score++;
+    if (/[0-9]/.test(value)) score++;
+    if (/[^A-Za-z0-9]/.test(value)) score++;
+
+    const colors = ['#ff4444', '#ff9800', '#f7df1e', '#00e676'];
+    const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+    bars.forEach((id, i) => {
+      document.getElementById(id).style.background = i < score ? colors[score - 1] : '#3a494b';
+    });
+    label.textContent = value.length > 0 ? labels[score - 1] || '' : '';
+    label.style.color = score > 0 ? colors[score - 1] : '#849495';
+  }
+
+  function showError(msg) {
+    document.getElementById('error-text').textContent = msg;
+    document.getElementById('error-msg').classList.add('show');
+    document.getElementById('success-msg').classList.remove('show');
+  }
+
+  function showSuccess(msg) {
+    document.getElementById('success-text').textContent = msg;
+    document.getElementById('success-msg').classList.add('show');
+    document.getElementById('error-msg').classList.remove('show');
+  }
+
+  function hideMessages() {
+    document.getElementById('error-msg').classList.remove('show');
+    document.getElementById('success-msg').classList.remove('show');
+  }
+
+  // Login handler — checks localStorage accounts
+  function handleLogin(e) {
+    e.preventDefault();
+    const email    = document.getElementById('login-email').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
+
+    const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
+    // Normalise stored emails to lowercase for comparison
+    const user = users.find(u => u.email.trim().toLowerCase() === email && u.password === password);
+
+    if (user) {
+      localStorage.setItem('codust_current_user', JSON.stringify(user));
+      showSuccess('Welcome back, ' + user.firstName + '! Redirecting...');
+      setTimeout(() => window.location.href = 'index.html', 1200);
+    } else {
+      // Check if email exists but password wrong vs email not found at all
+      const emailExists = users.find(u => u.email.trim().toLowerCase() === email);
+      if (emailExists) {
+        showError('Wrong password. Please try again or use "Forgot password?"');
+      } else {
+        showError('No account found with that email. Please sign up first.');
+        // Highlight the sign-up tab hint
+        document.getElementById('switch-hint').innerHTML =
+          '👉 <a href="#" style="color:#00dbe7;text-decoration:none;font-weight:700;" onclick="switchTab(\'signup\');return false;">Create a free account</a> — it only takes 30 seconds!';
+      }
+    }
+  }
+
+  // Signup handler
+  function handleSignup(e) {
+    e.preventDefault();
+    const firstName = document.getElementById('signup-fname').value.trim();
+    const lastName  = document.getElementById('signup-lname').value.trim();
+    const email     = document.getElementById('signup-email').value.trim();
+    const password  = document.getElementById('signup-password').value;
+    const confirm   = document.getElementById('signup-confirm').value;
+
+    if (password !== confirm) {
+      showError('Passwords do not match.'); return;
+    }
+    if (password.length < 8) {
+      showError('Password must be at least 8 characters.'); return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
+    if (users.find(u => u.email === email)) {
+      showError('An account with this email already exists.'); return;
+    }
+
+    const newUser = { firstName, lastName, email, password, joinDate: new Date().toISOString() };
+    users.push(newUser);
+    localStorage.setItem('codust_users', JSON.stringify(users));
+    localStorage.setItem('codust_current_user', JSON.stringify(newUser));
+
+    showSuccess('Account created! Welcome, ' + firstName + '! Redirecting...');
+    setTimeout(() => window.location.href = 'index.html', 1400);
+  }
+
+  // Google (demo)
+  function handleGoogle() {
+    const demoUser = { firstName: 'Google', lastName: 'User', email: 'user@gmail.com', joinDate: new Date().toISOString() };
+    localStorage.setItem('codust_current_user', JSON.stringify(demoUser));
+    showSuccess('Signed in with Google! Redirecting...');
+    setTimeout(() => window.location.href = 'index.html', 1200);
+  }
+
+  // Forgot password modal
+  function showForgot() { document.getElementById('forgot-modal').style.display = 'flex'; }
+  function closeForgot() { document.getElementById('forgot-modal').style.display = 'none'; }
+  function sendReset() {
+    const email = document.getElementById('forgot-email').value.trim();
+    if (!email) return;
+    closeForgot();
+    showSuccess('If an account exists for ' + email + ', a reset link has been sent.');
+  }
+</script>
+</body>
+</html>

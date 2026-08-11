@@ -1,0 +1,575 @@
+﻿<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<footer style="border-top:1px solid rgba(58,73,75,0.3); padding:32px 24px 40px; position:relative; z-index:1;">
+  <div style="max-width:1280px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:1fr; gap:32px; margin-bottom:32px;" class="footer-grid">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <span class="material-symbols-outlined" style="color:#00dbe7; font-variation-settings:'FILL' 1;">code</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#00dbe7;">Codust<span style="color:#e3e1e9;">.hub</span></span>
+        </div>
+        <p style="font-size:13px; color:#849495; line-height:1.6; max-width:260px;">A free coding education platform. Learn programming from beginner to pro with structured courses and real examples.</p>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Learn</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">All Tutorials</a></li>
+          <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+          <li><a href="lesson.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Practice Problems</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Topics</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Python</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">JavaScript</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">HTML &amp; CSS</a></li>
+          <li><a href="learning-library.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Data Structures</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:#e3e1e9; margin-bottom:12px;">Platform</h4>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+          <li><a href="index.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Home</a></li>
+          <li><a href="course-hub.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Course Hub</a></li>
+          <li><a href="login.html" style="font-size:13px; color:#849495; text-decoration:none;" onmouseover="this.style.color='#00dbe7'" onmouseout="this.style.color='#849495'">Sign In</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(58,73,75,0.3); padding-top:20px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center;">
+      <p style="font-size:12px; color:#849495;">© 2026 Codust.hub — Free coding education for everyone.</p>
+      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#849495;">Built with <span style="color:#00dbe7;">{ }</span> and passion</p>
+    </div>
+  </div>
+</footer>
+<style>
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr !important; } }
+</style>
+      color: #e3e1e9;
+      position: relative;
+    }
+
+    .page-background {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(180deg, rgba(10, 11, 15, 0.72) 0%, rgba(18, 19, 24, 0.88) 55%, rgba(18, 19, 24, 0.97) 100%),
+        radial-gradient(circle at top right, rgba(0, 219, 231, 0.16), transparent 28%),
+        url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: saturate(0.95);
+    }
+
+    .page-background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(18, 19, 24, 0.54) 0%, rgba(18, 19, 24, 0.18) 35%, rgba(18, 19, 24, 0.72) 100%);
+    }
+
+    .glass-panel {
+      background: rgba(18, 19, 24, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 219, 231, 0.15);
+    }
+
+    .corner-bracket::before,
+    .corner-bracket::after {
+      content: '';
+      position: absolute;
+      border: 2px solid #00dbe7;
+      width: 12px;
+      height: 12px;
+    }
+
+    .corner-bracket::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid #00dbe7;
+      border-left: 2px solid #00dbe7;
+    }
+
+    .corner-bracket::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid #00dbe7;
+      border-right: 2px solid #00dbe7;
+    }
+
+    .file-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .file-card:hover {
+      background: rgba(0, 219, 231, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 0 4px;
+    }
+
+    .badge.complete {
+      background: rgba(76, 175, 80, 0.3);
+      color: #4caf50;
+      border: 1px solid rgba(76, 175, 80, 0.5);
+    }
+
+    .badge.new {
+      background: rgba(0, 219, 231, 0.3);
+      color: #00dbe7;
+      border: 1px solid rgba(0, 219, 231, 0.5);
+    }
+
+    .badge.prompt {
+      background: rgba(255, 36, 228, 0.3);
+      color: #ff24e4;
+      border: 1px solid rgba(255, 36, 228, 0.5);
+    }
+
+    .section-header {
+      border-left: 3px solid #00dbe7;
+      padding-left: 12px;
+    }
+
+    .scanline {
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+      background-size: 100% 4px;
+      position: fixed;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen overflow-x-hidden bg-background">
+<div class="page-background"></div>
+<div class="scanline"></div>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-xl border-b border-outline-variant/30 px-8 py-4">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-2xl font-bold text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,219,231,0.5)]">
+      CODUST.HUB // MASTER_INDEX
+    </h1>
+    <p class="text-sm text-on-surface-variant mt-1">Cyberpunk Coding Academy Platform</p>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-1 pt-24 pb-12 px-8">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Quick Links -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸš€ QUICK START</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="index.html" class="glass-panel p-6 corner-bracket relative hover:brightness-110 transition">
+          <span class="material-symbols-outlined text-3xl text-primary-fixed-dim mb-2">dashboard</span>
+          <h3 class="font-bold text-lg">Dashboard</h3>
+          <p class="text-sm text-on-surface-variant mt-2">View your learning progress, modules, and stats</p>
+        </a>
+        
+        <a href="learning-library.html" class="glass-panel p-6 corner-bracket relative hover:brightness-110 transition">
+          <span class="material-symbols-outlined text-3xl text-primary-fixed-dim mb-2">library_books</span>
+          <h3 class="font-bold text-lg">Learning Library</h3>
+          <p class="text-sm text-on-surface-variant mt-2">Browse 50+ topics across 7 categories</p>
+        </a>
+
+        <a href="lesson.html" class="glass-panel p-6 corner-bracket relative hover:brightness-110 transition">
+          <span class="material-symbols-outlined text-3xl text-primary-fixed-dim mb-2">school</span>
+          <h3 class="font-bold text-lg">Lessons</h3>
+          <p class="text-sm text-on-surface-variant mt-2">Interactive split-screen learning with quizzes</p>
+        </a>
+
+        <a href="index.html" class="glass-panel p-6 corner-bracket relative hover:brightness-110 transition">
+          <span class="material-symbols-outlined text-3xl text-primary-fixed-dim mb-2">code</span>
+          <h3 class="font-bold text-lg">Code Editor</h3>
+          <p class="text-sm text-on-surface-variant mt-2">Cyberpunk mission briefing interface</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Documentation -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸ“š DOCUMENTATION</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-panel p-6 corner-bracket relative">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold">README.md</h3>
+            <span class="badge complete">Complete</span>
+          </div>
+          <p class="text-sm text-on-surface-variant mb-4">Full platform architecture, API endpoints, and deployment guide</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">Read full documentation â†’</a>
+        </div>
+
+        <div class="glass-panel p-6 corner-bracket relative">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold">QUICK_REFERENCE.md</h3>
+            <span class="badge new">New</span>
+          </div>
+          <p class="text-sm text-on-surface-variant mb-4">File navigation, features, tips & tricks, performance</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">Quick reference â†’</a>
+        </div>
+
+        <div class="glass-panel p-6 corner-bracket relative">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold">LEARNING_LIBRARY_SUMMARY.md</h3>
+            <span class="badge new">New</span>
+          </div>
+          <p class="text-sm text-on-surface-variant mb-4">Implementation guide for sidebar, curriculum structure</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">View summary â†’</a>
+        </div>
+
+        <div class="glass-panel p-6 corner-bracket relative">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold">CURRICULUM_ROADMAP.md</h3>
+            <span class="badge new">New</span>
+          </div>
+          <p class="text-sm text-on-surface-variant mb-4">Complete learning tree with 50+ topics, progression paths</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">View roadmap â†’</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extension Prompts -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸ”§ COPILOT EXTENSION PROMPTS</h2>
+      
+      <div class="mb-6">
+        <h3 class="font-bold mb-3 flex items-center gap-2">
+          <span class="text-secondary">â†’</span>
+          Core Feature Prompts (in BLUEPRINT.md)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 ml-4">
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">1</span>
+            <div>
+              <p class="text-sm font-mono">Authentication System</p>
+              <p class="text-xs text-on-surface-variant">Login, signup, password reset</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">2</span>
+            <div>
+              <p class="text-sm font-mono">GitHub Integration</p>
+              <p class="text-xs text-on-surface-variant">Link GitHub projects, show contributions</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">3</span>
+            <div>
+              <p class="text-sm font-mono">Leaderboard System</p>
+              <p class="text-xs text-on-surface-variant">XP rankings, achievements, badges</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">4</span>
+            <div>
+              <p class="text-sm font-mono">Discussion Forums</p>
+              <p class="text-xs text-on-surface-variant">Q&A, best answers, community</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">5</span>
+            <div>
+              <p class="text-sm font-mono">Analytics Dashboard</p>
+              <p class="text-xs text-on-surface-variant">Learning time, topic difficulty, completion rate</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">6</span>
+            <div>
+              <p class="text-sm font-mono">Code Editor Challenges</p>
+              <p class="text-xs text-on-surface-variant">Mini coding problems, auto-grading</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-3 flex items-center gap-2">
+          <span class="text-secondary">â†’</span>
+          Sidebar Extension Prompts (in SIDEBAR_GUIDE.md)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 ml-4">
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">1</span>
+            <div>
+              <p class="text-sm font-mono">Full Lesson Content</p>
+              <p class="text-xs text-on-surface-variant">Fill topics with lessons, code, quizzes</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">2</span>
+            <div>
+              <p class="text-sm font-mono">Progress Tracking</p>
+              <p class="text-xs text-on-surface-variant">Checkmarks, % complete, streaks</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">3</span>
+            <div>
+              <p class="text-sm font-mono">Full Lesson Pages</p>
+              <p class="text-xs text-on-surface-variant">Split-screen for each topic</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">4</span>
+            <div>
+              <p class="text-sm font-mono">Category Progress</p>
+              <p class="text-xs text-on-surface-variant">Progress bars, completion %</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">5</span>
+            <div>
+              <p class="text-sm font-mono">Learning Paths</p>
+              <p class="text-xs text-on-surface-variant">Bootcamp, Frontend, Backend modes</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">6</span>
+            <div>
+              <p class="text-sm font-mono">Discussion Threads</p>
+              <p class="text-xs text-on-surface-variant">Q&A per topic, upvotes</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">7</span>
+            <div>
+              <p class="text-sm font-mono">AI Explanations</p>
+              <p class="text-xs text-on-surface-variant">"Explain it to me" button</p>
+            </div>
+          </div>
+          <div class="glass-panel p-3 flex items-start gap-3">
+            <span class="badge prompt">8</span>
+            <div>
+              <p class="text-sm font-mono">Recommended Topics</p>
+              <p class="text-xs text-on-surface-variant">Smart suggestions, prerequisites</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Status -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸ“Š PLATFORM STATUS</h2>
+      
+      <div class="glass-panel p-6 corner-bracket">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-primary-fixed-dim">50+</div>
+            <div class="text-sm text-on-surface-variant">Topics</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-primary-fixed-dim">7</div>
+            <div class="text-sm text-on-surface-variant">Categories</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-primary-fixed-dim">15+</div>
+            <div class="text-sm text-on-surface-variant">Files</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-primary-fixed-dim">16</div>
+            <div class="text-sm text-on-surface-variant">Extension Prompts</div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface">Core Platform</span>
+            <span class="badge complete">âœ“ 100% Complete</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface">Learning Library</span>
+            <span class="badge new">âœ“ Just Added</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface">Progress Tracking</span>
+            <span class="badge complete">âœ“ Functional</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface">Backend API</span>
+            <span class="badge complete">âœ“ Ready</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-on-surface">Production Ready</span>
+            <span class="badge complete">âœ“ YES</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curriculum Overview -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸŽ“ CURRICULUM OVERVIEW</h2>
+      
+      <div class="space-y-3">
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸ“–</span>
+            <span class="text-xs text-on-surface-variant">Tier 1</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Introduction to Coding (5 topics)</h4>
+            <p class="text-sm text-on-surface-variant">Absolute beginner fundamentals â€¢ 30 min â€¢ Prerequisites: None</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸ’»</span>
+            <span class="text-xs text-on-surface-variant">Tier 1</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Programming Fundamentals (7 topics)</h4>
+            <p class="text-sm text-on-surface-variant">Variables, loops, functions, arrays â€¢ 4 weeks â€¢ Foundation</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸŒ</span>
+            <span class="text-xs text-on-surface-variant">Tier 2</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Frontend Web Development (9 topics)</h4>
+            <p class="text-sm text-on-surface-variant">HTML, CSS, JavaScript, React â€¢ 6 weeks â€¢ Intermediate</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">âš™ï¸</span>
+            <span class="text-xs text-on-surface-variant">Tier 2</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Backend & Databases (9 topics)</h4>
+            <p class="text-sm text-on-surface-variant">Node.js, Express, SQL, MongoDB â€¢ 6 weeks â€¢ Intermediate</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸ“Š</span>
+            <span class="text-xs text-on-surface-variant">Tier 3</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Data Structures & Algorithms (8 topics)</h4>
+            <p class="text-sm text-on-surface-variant">Arrays, trees, sorting, Big O â€¢ 8 weeks â€¢ Advanced</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸš€</span>
+            <span class="text-xs text-on-surface-variant">Tier 3</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Advanced Topics & Optimization (8 topics)</h4>
+            <p class="text-sm text-on-surface-variant">DevOps, system design, performance â€¢ 6 weeks â€¢ Advanced</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-4 flex items-start gap-4">
+          <div class="text-center min-w-12">
+            <span class="text-2xl">ðŸ—ï¸</span>
+            <span class="text-xs text-on-surface-variant">Tier 4</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold">Full-Stack Projects (5 topics)</h4>
+            <p class="text-sm text-on-surface-variant">Portfolio projects â€¢ Ongoing â€¢ Professional</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- File Structure -->
+    <section class="mb-12">
+      <h2 class="section-header text-xl font-bold mb-6">ðŸ—‚ï¸ FILE STRUCTURE</h2>
+      
+      <div class="glass-panel p-6 corner-bracket">
+        <div class="font-mono text-sm space-y-1">
+          <div><span class="text-primary-fixed-dim">Codust.hub/</span></div>
+          <div class="ml-4">
+            <div><span class="text-secondary">ðŸ”¹</span> index.html <span class="badge complete">âœ“</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> index.html <span class="badge complete">âœ“</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> lesson.html <span class="badge complete">âœ“</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> courseData.js <span class="badge complete">âœ“</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> server.js <span class="badge complete">âœ“</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> learning-library.html <span class="badge new">âœ“ NEW</span></div>
+            <div><span class="text-secondary">ðŸ”¹</span> sidebarData.js <span class="badge new">âœ“ NEW</span></div>
+            <div class="text-primary-fixed-dim mt-2">ðŸ“š Documentation/</div>
+            <div class="ml-4">
+              <div><span class="text-secondary">ðŸ”¹</span> README.md <span class="badge complete">âœ“</span></div>
+              <div><span class="text-secondary">ðŸ”¹</span> BLUEPRINT.md <span class="badge complete">âœ“</span></div>
+              <div><span class="text-secondary">ðŸ”¹</span> QUICK_REFERENCE.md <span class="badge new">âœ“ NEW</span></div>
+              <div><span class="text-secondary">ðŸ”¹</span> LEARNING_LIBRARY_SUMMARY.md <span class="badge new">âœ“ NEW</span></div>
+              <div><span class="text-secondary">ðŸ”¹</span> CURRICULUM_ROADMAP.md <span class="badge new">âœ“ NEW</span></div>
+              <div><span class="text-secondary">ðŸ”¹</span> SIDEBAR_GUIDE.md <span class="badge new">âœ“ NEW</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section>
+      <h2 class="section-header text-xl font-bold mb-6">ðŸš€ NEXT STEPS</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-panel p-6 corner-bracket">
+          <div class="text-2xl mb-3">1ï¸âƒ£</div>
+          <h3 class="font-bold mb-2">Explore</h3>
+          <p class="text-sm text-on-surface-variant mb-4">Open index.html and learning-library.html. Try expanding categories, searching topics, and completing lessons.</p>
+          <a href="index.html" class="text-primary-fixed-dim text-sm hover:underline">Go to Dashboard â†’</a>
+        </div>
+
+        <div class="glass-panel p-6 corner-bracket">
+          <div class="text-2xl mb-3">2ï¸âƒ£</div>
+          <h3 class="font-bold mb-2">Extend</h3>
+          <p class="text-sm text-on-surface-variant mb-4">Use SIDEBAR_GUIDE.md or BLUEPRINT.md prompts with Copilot to add features like progress tracking, lessons, and paths.</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">View Prompts â†’</a>
+        </div>
+
+        <div class="glass-panel p-6 corner-bracket">
+          <div class="text-2xl mb-3">3ï¸âƒ£</div>
+          <h3 class="font-bold mb-2">Deploy</h3>
+          <p class="text-sm text-on-surface-variant mb-4">Push to GitHub, deploy frontend to Netlify, and backend to Render. Your learning platform is production-ready!</p>
+          <a href="#" class="text-primary-fixed-dim text-sm hover:underline">Deployment Guide â†’</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-outline-variant/30 mt-12 py-8 text-center">
+  <p class="text-on-surface-variant text-sm">
+    Built with â¤ï¸ for <span class="text-primary-fixed-dim font-bold">Codust.hub</span> | 
+    Cyberpunk Coding Academy
+  </p>
+  <p class="text-xs text-outline/50 mt-2">
+    15+ Files â€¢ 50+ Topics â€¢ 16 Extension Prompts â€¢ Production Ready âœ¨
+  </p>
+</footer>
+
+</body>
+</html>
+

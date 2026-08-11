@@ -1,0 +1,107 @@
+export const HTML_TD_TAG_CONTENT = {
+  title: 'HTML <td> Tag (Cell)',
+  lastUpdated: '22 May, 2026',
+  intro:
+    'The <td> tag defines a standard data cell inside an HTML table. It can contain text, numbers, images, links, or other elements within a table row (<tr>).',
+  highlights: [
+    'Used to display regular table data inside rows.',
+    'Text is left-aligned and normal by default (unlike <th>).',
+  ],
+  primaryCode: `<!DOCTYPE html>\n<html>\n<body>\n    <table>\n        <tr>\n            <td>Row 1, Cell 1</td>\n            <td>Row 1, Cell 2</td>\n        </tr>\n        <tr>\n            <td>Row 2, Cell 1</td>\n            <td>Row 2, Cell 2</td>\n        </tr>\n    </table>\n</body>\n</html>`,
+  primaryNotes: [
+    'The <td> tag creates data cells in the table, holding values like "Row 1, Cell 1".',
+    'Each row uses <td> to place table content into columns.',
+  ],
+  syntax: '<td> ... </td>',
+  note: 'The <td> tag also supports global attributes and event attributes in HTML.',
+  cellTypesTitle: 'Types of Cells',
+  cellTypesIntro:
+    'HTML tables contain two main types of cells that help organize and display information clearly.',
+  cellTypes: [
+    {
+      heading: '1. Header Cells',
+      points: [
+        'Header cells define and highlight table headings for better structure and readability.',
+        'Used to display column or row headings in a table.',
+        'Text appears bold and centered by default.',
+        'Helps label and organize table data clearly.',
+      ],
+    },
+    {
+      heading: '2. Standard Cells',
+      points: [
+        'Standard cells store and display the main data content within table rows.',
+        'Used to display regular data within the table.',
+        'Text appears normal and left-aligned by default.',
+        'Holds the actual content corresponding to headers.',
+      ],
+    },
+  ],
+  html5AttributesTitle: 'HTML5 Attributes',
+  html5Attributes: [
+    { name: 'rowspan', description: 'Specifies the number of rows covered by the cell.' },
+    { name: 'colspan', description: 'Determines the number of columns covered by the cell.' },
+    { name: 'id', description: 'Identifies the data cell uniquely in the table.' },
+    { name: 'class', description: 'Specifies the CSS class used to style the cell.' },
+    { name: 'style', description: 'Defines inline visual appearance through CSS properties.' },
+  ],
+  removedAttributesTitle: 'HTML4.01 Attributes Removed in HTML5',
+  removedAttributes: [
+    { name: 'abbr', description: 'Abbreviated version of text content in a header-related context.' },
+    { name: 'align', description: 'Sets alignment of text content within the table cell.' },
+    { name: 'axis', description: 'Categorizes header cells in the table.' },
+    { name: 'bgcolor', description: 'Sets background color of a table header/cell.' },
+    { name: 'char', description: 'Aligns content in a cell to a specific character.' },
+    { name: 'charoff', description: 'Sets character offset used with the char attribute.' },
+    { name: 'colspan', description: 'Specifies number of columns a header cell should span.' },
+    { name: 'headers', description: 'Specifies multiple header cells a cell is related to.' },
+    { name: 'height', description: 'Sets the height of a table cell.' },
+    { name: 'nowrap', description: 'Prevents content inside a cell from wrapping.' },
+    { name: 'scope', description: 'Specifies the scope of header content.' },
+    { name: 'valign', description: 'Sets vertical alignment of text content.' },
+    { name: 'width', description: 'Sets the width of a table cell.' },
+  ],
+  examplesTitle: 'Example of HTML <td> Tag',
+  examplesIntro: 'Different ways to use the HTML <td> tag in a table.',
+  exampleOneTitle: 'Example 1: <td> with rowspan attribute',
+  exampleOneCode: `<!DOCTYPE html>\n<html>\n<body>\n    <table border="1">\n        <tr>\n            <th>Item</th>\n            <th>Description</th>\n        </tr>\n        <tr>\n            <td rowspan="2">Laptop</td>\n            <td>Brand: XYZ</td>\n        </tr>\n        <tr>\n            <td>Price: $999</td>\n        </tr>\n    </table>\n</body>\n</html>`,
+  exampleOneNotes: [
+    'The <td rowspan="2"> attribute makes the "Laptop" cell span two rows, effectively merging them vertically.',
+    'This technique is useful for grouping related information under a single category.',
+  ],
+  exampleTwoTitle: 'Example 2: Implementation and styling of table cells',
+  exampleTwoCode: `<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        table {\n            border-collapse: collapse;\n        }\n        td {\n            border: 1px solid black;\n            padding: 8px;\n        }\n        td:nth-child(even) {\n            background-color: #f9f9f9;\n        }\n    </style>\n</head>\n<body>\n    <table>\n        <tr>\n            <td>Row 1, Cell 1</td>\n            <td>Row 1, Cell 2</td>\n        </tr>\n        <tr>\n            <td>Row 2, Cell 1</td>\n            <td>Row 2, Cell 2</td>\n        </tr>\n    </table>\n</body>\n</html>`,
+  exampleTwoNotes: [
+    'padding: 8px adds space inside each table cell.',
+    'background-color: #f9f9f9 applies a light grey background to every even-numbered cell.',
+    'border: 1px solid black adds a black border around each table cell.',
+  ],
+  quiz: {
+    question: 'Which of the following attributes allows a <td> cell to span multiple rows?',
+    options: ['A. colspan', 'B. rowspan', 'C. id', 'D. scope'],
+    answer: 'B. rowspan',
+  },
+  author: {
+    name: 'Vijay Sirra',
+    initial: 'V',
+    url: 'https://www.geeksforgeeks.org/html/html-td-tag/',
+  },
+  reactions: 1,
+  articleTags: ['Web Technologies', 'HTML', 'HTML-Tags'],
+  courseUrl: 'https://www.geeksforgeeks.org/html/html-td-tag/',
+  referenceUrl: 'https://www.geeksforgeeks.org/html/html-td-tag/',
+  explore: [
+    {
+      heading: 'Explore',
+      items: [
+        { label: 'HTML Basics', url: 'https://www.geeksforgeeks.org/html/html-introduction/' },
+        { label: 'Structure & Elements', url: 'https://www.geeksforgeeks.org/html/html-elements/' },
+        { label: 'Lists', url: 'https://www.geeksforgeeks.org/html/html-lists/' },
+        { label: 'Visuals & Media', url: 'https://www.geeksforgeeks.org/html/html-media/' },
+        { label: 'Layouts & Designs', url: 'https://www.geeksforgeeks.org/html/html-layout/' },
+        { label: 'Projects & Advanced Topics', url: 'https://www.geeksforgeeks.org/html/html-projects/' },
+        { label: 'Tutorial References', url: 'https://www.geeksforgeeks.org/html/html-tutorial/' },
+      ],
+    },
+  ],
+};
