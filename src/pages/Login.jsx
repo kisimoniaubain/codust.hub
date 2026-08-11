@@ -29,21 +29,79 @@ export default function Login() {
     setStrength(s);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value.trim().toLowerCase();
-    const password = e.target.password.value;
-    const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
-    const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
-    if (user) {
-      login(user);
-      setSuccess(`Welcome back, ${user.firstName}! Redirecting...`);
-      setTimeout(() => navigate('/'), 1200);
-    } else {
-      const exists = users.find(u => u.email.toLowerCase() === email);
-      setError(exists ? 'Wrong password. Try again or use Forgot password.' : 'No account with that email. Please sign up first.');
-    }
-  };
+const handleLogin = (e) => {
+  e.preventDefault();
+
+  setError("");
+  setSuccess("");
+
+  const email = e.target.email.value.trim().toLowerCase();
+  const password = e.target.password.value;
+
+  // Validate fields
+  if (!email || !password) {
+    setError("Please enter your email and password.");
+    return;
+  }
+
+  // Get registered users
+  let users = [];
+
+  try {
+    users = JSON.parse(localStorage.getItem("codust_users") || "[]");
+  } catch (error) {
+    console.error("Could not read users:", error);
+    setError("Something went wrong. Please try again.");
+    return;
+  }
+
+  // Find user by email
+  const user = users.find(
+    (u) => u.email?.trim().toLowerCase() === email
+  );
+
+  // Account doesn't exist
+  if (!user) {
+    setError(
+      "No account with that email. Please sign up first."
+    );
+    return;
+  }
+
+  // Wrong password
+  if (user.password !== password) {
+    setError(
+      "Wrong password. Try again or use Forgot password."
+    );
+    return;
+  }
+
+  // Login successful
+  login(user);
+
+  setSuccess(`Welcome back, ${user.firstName || "User"}! Redirecting...`);
+
+  setTimeout(() => {
+    navigate("/");
+  }, 1200);
+};
+
+
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   const email = e.target.email.value.trim().toLowerCase();
+  //   const password = e.target.password.value;
+  //   const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
+  //   const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
+  //   if (user) {
+  //     login(user);
+  //     setSuccess(`Welcome back, ${user.firstName}! Redirecting...`);
+  //     setTimeout(() => navigate('/'), 1200);
+  //   } else {
+  //     const exists = users.find(u => u.email.toLowerCase() === email);
+  //     setError(exists ? 'Wrong password. Try again or use Forgot password.' : 'No account with that email. Please sign up first.');
+  //   }
+  // };
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -88,7 +146,6 @@ export default function Login() {
                 Codust<span style={{ color:'#e3e1e9' }}>.hub</span>
               </span>
             </Link>
-            <h1 style={{ fontFamily:'Space Grotesk', fontSize:22, fontWeight:700, color:'#e3e1e9', marginBottom:6 }}>Welcome back</h1>
             <p style={{ color:'#849495', fontSize:14 }}>Your coding journey starts here</p>
           </div>
 

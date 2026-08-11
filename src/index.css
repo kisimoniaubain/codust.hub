@@ -162,3 +162,498 @@ body {
     justify-content: center;
   }
 }
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+.codust-mobile-toggle {
+  display: none !important;
+}
+
+.codust-mobile-drawer {
+  display: none;
+}
+
+.codust-mobile-overlay {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  /* Hide desktop navigation */
+  .codust-nav-desktop {
+    display: none !important;
+  }
+
+  /* Hide desktop authentication */
+  .codust-auth-desktop {
+    display: none !important;
+  }
+
+  /* Show hamburger */
+  .codust-mobile-toggle {
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    background: transparent !important;
+    border: none !important;
+
+    color: #00dbe7;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+  }
+
+
+  /* =======================================================
+     DARK OVERLAY
+  ======================================================= */
+
+  .codust-mobile-overlay {
+    display: block;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    z-index: 1050;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .codust-mobile-overlay-open {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+  }
+
+
+  /* =======================================================
+     LEFT DRAWER
+  ======================================================= */
+
+  .codust-mobile-drawer {
+    display: flex;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: min(360px, 84vw);
+
+    height: 100vh;
+
+    background: #121318;
+
+    z-index: 1150;
+
+    flex-direction: column;
+
+    overflow-y: auto;
+
+    box-shadow:
+      10px 0 40px rgba(0, 0, 0, 0.35);
+
+    transform: translateX(-105%);
+
+    transition:
+      transform 0.38s
+      cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .codust-mobile-drawer-open {
+    transform: translateX(0);
+  }
+
+
+  /* =======================================================
+     DRAWER HEADER
+  ======================================================= */
+
+  .codust-mobile-drawer-header {
+    min-height: 74px;
+
+    padding: 0 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+      1px solid rgba(58, 73, 75, 0.35);
+
+    flex-shrink: 0;
+  }
+
+
+  /* =======================================================
+     MOBILE LOGO
+  ======================================================= */
+
+  .codust-mobile-logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #00dbe7;
+
+    text-decoration: none;
+
+    font-family:
+      "Space Grotesk",
+      sans-serif;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.03em;
+  }
+
+  .codust-mobile-logo > span:last-child > span {
+    color: #e3e1e9;
+  }
+
+
+  /* =======================================================
+     CLOSE BUTTON
+  ======================================================= */
+
+  .codust-mobile-close {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: transparent;
+
+    border: none;
+
+    border-radius: 8px;
+
+    color: #b9cacb;
+
+    cursor: pointer;
+
+    transition:
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .codust-mobile-close:hover {
+    color: #00dbe7;
+
+    background:
+      rgba(0, 219, 231, 0.08);
+  }
+
+
+  /* =======================================================
+     MOBILE NAV
+  ======================================================= */
+
+  .codust-mobile-nav {
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 18px 14px;
+  }
+
+
+  /* Navigation links */
+
+  .codust-mobile-nav-link {
+    display: flex;
+
+    align-items: center;
+
+    min-height: 48px;
+
+    padding: 0 16px;
+
+    margin-bottom: 5px;
+
+    color: #b9cacb;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    border-radius: 12px;
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+
+  /* Hover */
+
+  .codust-mobile-nav-link:hover {
+    color: #00dbe7;
+
+    background:
+      rgba(0, 219, 231, 0.07);
+  }
+
+
+  /* Active */
+
+  .codust-mobile-nav-link-active {
+    color: #00dbe7 !important;
+
+    background:
+      rgba(0, 219, 231, 0.13);
+
+    font-weight: 700;
+  }
+
+
+  /* =======================================================
+     MOBILE AUTH
+  ======================================================= */
+
+  .codust-mobile-auth {
+    margin-top: auto;
+
+    padding: 18px;
+
+    border-top:
+      1px solid rgba(58, 73, 75, 0.3);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+
+  /* Logged-in user */
+
+  .codust-mobile-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+      10px 4px 14px;
+
+    border-bottom:
+      1px solid rgba(58, 73, 75, 0.25);
+  }
+
+  .codust-mobile-user p {
+    margin: 0;
+
+    color: #849495;
+
+    font-size: 11px;
+  }
+
+  .codust-mobile-user strong {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #00dbe7;
+
+    font-family:
+      "JetBrains Mono",
+      monospace;
+
+    font-size: 12px;
+  }
+
+
+  /* Profile / courses */
+
+  .codust-mobile-auth > a:not(.mobile-signin):not(.mobile-signup) {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 4px;
+
+    color: #b9cacb;
+
+    text-decoration: none;
+
+    font-size: 14px;
+  }
+
+  .codust-mobile-auth > a:not(.mobile-signin):not(.mobile-signup):hover {
+    color: #00dbe7;
+  }
+
+
+  /* Logout */
+
+  .codust-mobile-auth > button {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 14px;
+
+    margin-top: 5px;
+
+    color: #ffb4ab;
+
+    background:
+      rgba(255, 180, 171, 0.08);
+
+    border:
+      1px solid rgba(255, 180, 171, 0.15);
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+  }
+
+
+  /* =======================================================
+     SIGN IN
+  ======================================================= */
+
+  .mobile-signin {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 11px 16px;
+
+    color: #b9cacb;
+
+    text-decoration: none;
+
+    border:
+      1px solid rgba(58, 73, 75, 0.6);
+
+    border-radius: 7px;
+
+    font-size: 14px;
+  }
+
+
+  /* =======================================================
+     SIGN UP
+  ======================================================= */
+
+  .mobile-signup {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 11px 16px;
+
+    background: #00dbe7;
+
+    color: #00363a;
+
+    font-weight: 700;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .codust-mobile-drawer {
+    width: 84vw;
+  }
+
+  .codust-mobile-drawer-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .codust-mobile-logo {
+    font-size: 18px;
+  }
+
+  .codust-mobile-nav {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .codust-mobile-nav-link {
+    font-size: 14px;
+
+    min-height: 46px;
+  }
+}
