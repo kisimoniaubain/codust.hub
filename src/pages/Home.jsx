@@ -140,7 +140,7 @@ export default function Home() {
       `}</style>
 
       {/* STATS */}
-      <section style={{ padding:'40px 24px', borderTop:'1px solid rgba(58,73,75,0.3)', borderBottom:'1px solid rgba(58,73,75,0.3)', background:'rgba(13,14,19,0.4)' }}>
+      {/* <section style={{ padding:'40px 24px', borderTop:'1px solid rgba(58,73,75,0.3)', borderBottom:'1px solid rgba(58,73,75,0.3)', background:'rgba(13,14,19,0.4)' }}>
         <div className="stats-grid" style={{ maxWidth:1280, margin:'0 auto', display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:32, textAlign:'center' }}>
           {[['50+','Courses Available'],['500+','Coding Lessons'],['12+','Languages Covered'],['100%','Free to Learn']].map(([n,l]) => (
             <div key={l}>
@@ -150,7 +150,7 @@ export default function Home() {
           ))}
         </div>
         <style>{`@media(min-width:640px){.stats-grid{grid-template-columns:repeat(4,1fr)!important}}`}</style>
-      </section>
+      </section> */}
 
       {/* TOPICS */}
       <section id="topics" style={{ padding:'64px 24px', maxWidth:1280, margin:'0 auto', width:'100%' }}>
