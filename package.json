@@ -21,6 +21,7 @@
   "author": "Codust Team",
   "license": "MIT",
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

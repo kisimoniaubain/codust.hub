@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 
 export default function Login() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState(searchParams.get('tab') === 'signup' ? 'signup' : 'login');
   const [showPw, setShowPw] = useState(false);
   const [showSignupPw, setShowSignupPw] = useState(false);
@@ -12,7 +12,9 @@ export default function Login() {
   const [strength, setStrength] = useState(0);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
-  const { login, signup } = useAuth();
+  const [submitting, setSubmitting] = useState(false);
+  const [resetMode, setResetMode] = useState(searchParams.get('reset') === '1');
+  const { login, signup, loginWithGoogle, resetPassword, updatePassword, isConfigured } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,100 +31,123 @@ export default function Login() {
     setStrength(s);
   };
 
-const handleLogin = (e) => {
-  e.preventDefault();
-
-  setError("");
-  setSuccess("");
-
-  const email = e.target.email.value.trim().toLowerCase();
-  const password = e.target.password.value;
-
-  // Validate fields
-  if (!email || !password) {
-    setError("Please enter your email and password.");
-    return;
-  }
-
-  // Get registered users
-  let users = [];
-
-  try {
-    users = JSON.parse(localStorage.getItem("codust_users") || "[]");
-  } catch (error) {
-    console.error("Could not read users:", error);
-    setError("Something went wrong. Please try again.");
-    return;
-  }
-
-  // Find user by email
-  const user = users.find(
-    (u) => u.email?.trim().toLowerCase() === email
-  );
-
-  // Account doesn't exist
-  if (!user) {
-    setError(
-      "No account with that email. Please sign up first."
-    );
-    return;
-  }
-
-  // Wrong password
-  if (user.password !== password) {
-    setError(
-      "Wrong password. Try again or use Forgot password."
-    );
-    return;
-  }
-
-  // Login successful
-  login(user);
-
-  setSuccess(`Welcome back, ${user.firstName || "User"}! Redirecting...`);
-
-  setTimeout(() => {
-    navigate("/");
-  }, 1200);
-};
-
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   const email = e.target.email.value.trim().toLowerCase();
-  //   const password = e.target.password.value;
-  //   const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
-  //   const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
-  //   if (user) {
-  //     login(user);
-  //     setSuccess(`Welcome back, ${user.firstName}! Redirecting...`);
-  //     setTimeout(() => navigate('/'), 1200);
-  //   } else {
-  //     const exists = users.find(u => u.email.toLowerCase() === email);
-  //     setError(exists ? 'Wrong password. Try again or use Forgot password.' : 'No account with that email. Please sign up first.');
-  //   }
-  // };
-
-  const handleSignup = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const firstName = e.target.firstName.value.trim();
-    const lastName  = e.target.lastName.value.trim();
-    const email     = e.target.email.value.trim();
-    const password  = e.target.password.value;
-    const confirm   = e.target.confirm.value;
-    if (password !== confirm) { setError('Passwords do not match.'); return; }
-    if (password.length < 8)  { setError('Password must be at least 8 characters.'); return; }
-    const users = JSON.parse(localStorage.getItem('codust_users') || '[]');
-    if (users.find(u => u.email === email)) { setError('An account with this email already exists.'); return; }
-    signup({ firstName, lastName, email, password, joinDate: new Date().toISOString() });
-    setSuccess(`Account created! Welcome, ${firstName}! Redirecting...`);
-    setTimeout(() => navigate('/'), 1400);
+    setError('');
+    setSuccess('');
+    const email = e.currentTarget.email.value.trim().toLowerCase();
+    const password = e.currentTarget.password.value;
+
+    if (!email || !password) {
+      setError('Please enter your email and password.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await login(email, password);
+      setSuccess('Welcome back! Redirecting...');
+      setTimeout(() => navigate('/'), 900);
+    } catch (authError) {
+      setError(authError instanceof Error ? authError.message : 'Could not sign in. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleGoogle = () => {
-    login({ firstName: 'Google', lastName: 'User', email: 'user@gmail.com', joinDate: new Date().toISOString() });
-    setSuccess('Signed in with Google! Redirecting...');
-    setTimeout(() => navigate('/'), 1200);
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    const form = e.currentTarget;
+    const firstName = form.firstName.value.trim();
+    const lastName = form.lastName.value.trim();
+    const email = form.email.value.trim().toLowerCase();
+    const password = form.password.value;
+    const confirm = form.confirm.value;
+
+    if (password !== confirm) {
+      setError('Passwords do not match.');
+      return;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const result = await signup({ firstName, lastName, email, password });
+      if (result.needsEmailConfirmation) {
+        setSuccess('Account created. Check your email to confirm your account, then sign in.');
+        setTab('login');
+      } else {
+        setSuccess(`Account created! Welcome, ${firstName}! Redirecting...`);
+        setTimeout(() => navigate('/'), 900);
+      }
+    } catch (authError) {
+      setError(authError instanceof Error ? authError.message : 'Could not create your account. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    setError('');
+    setSubmitting(true);
+    try {
+      await loginWithGoogle();
+    } catch (authError) {
+      setError(authError instanceof Error ? authError.message : 'Google sign-in could not be started.');
+      setSubmitting(false);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    setError('');
+    if (!forgotEmail.trim()) {
+      setError('Enter your email address first.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await resetPassword(forgotEmail.trim().toLowerCase());
+      setForgotOpen(false);
+      setSuccess(`If an account exists for ${forgotEmail.trim()}, a reset link has been sent.`);
+    } catch (authError) {
+      setError(authError instanceof Error ? authError.message : 'Could not send the password reset email.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    const password = e.currentTarget.password.value;
+    const confirm = e.currentTarget.confirm.value;
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (password !== confirm) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await updatePassword(password);
+      setResetMode(false);
+      setSearchParams({});
+      setSuccess('Password updated. You can now sign in with your new password.');
+    } catch (authError) {
+      setError(authError instanceof Error ? authError.message : 'Could not update your password.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputStyle = { width:'100%', background:'rgba(13,14,19,0.8)', border:'1px solid rgba(58,73,75,0.6)', borderRadius:8, padding:'12px 44px 12px 44px', color:'#e3e1e9', fontFamily:'Geist', fontSize:15, outline:'none' };
@@ -152,14 +177,22 @@ const handleLogin = (e) => {
           <div style={{ background:'rgba(18,19,24,0.85)', backdropFilter:'blur(24px)', border:'1px solid rgba(0,219,231,0.18)', borderRadius:20, padding:32 }}>
 
             {/* Tabs */}
-            <div style={{ display:'flex', gap:4, background:'rgba(13,14,19,0.6)', borderRadius:10, padding:4, marginBottom:28 }}>
-              {['login','signup'].map(t => (
-                <button key={t} onClick={() => { setTab(t); setError(''); setSuccess(''); }}
-                  style={{ flex:1, padding:10, fontFamily:'JetBrains Mono', fontSize:12, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', background: tab===t ? 'rgba(0,219,231,0.12)' : 'none', color: tab===t ? '#00dbe7' : '#849495', border:'none', borderRadius:8, cursor:'pointer', transition:'all 0.2s' }}>
-                  {t === 'login' ? 'Sign In' : 'Sign Up'}
-                </button>
-              ))}
-            </div>
+            {!resetMode && (
+              <div style={{ display:'flex', gap:4, background:'rgba(13,14,19,0.6)', borderRadius:10, padding:4, marginBottom:28 }}>
+                {['login','signup'].map(t => (
+                  <button key={t} onClick={() => { setTab(t); setError(''); setSuccess(''); }}
+                    style={{ flex:1, padding:10, fontFamily:'JetBrains Mono', fontSize:12, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', background: tab===t ? 'rgba(0,219,231,0.12)' : 'none', color: tab===t ? '#00dbe7' : '#849495', border:'none', borderRadius:8, cursor:'pointer', transition:'all 0.2s' }}>
+                    {t === 'login' ? 'Sign In' : 'Sign Up'}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {!isConfigured && (
+              <div style={{ background:'rgba(255,180,171,0.1)', border:'1px solid rgba(255,180,171,0.3)', borderRadius:8, padding:'10px 14px', color:'#ffb4ab', fontSize:13, marginBottom:16 }}>
+                Account services are not configured yet. Add the Supabase URL and public anon key to the site environment, then redeploy.
+              </div>
+            )}
 
             {error && (
               <div style={{ background:'rgba(255,180,171,0.1)', border:'1px solid rgba(255,180,171,0.3)', borderRadius:8, padding:'10px 14px', color:'#ffb4ab', fontSize:13, display:'flex', alignItems:'center', gap:8, marginBottom:16 }}>
@@ -173,7 +206,18 @@ const handleLogin = (e) => {
             )}
 
             {/* LOGIN */}
-            {tab === 'login' && (
+            {resetMode && (
+              <form onSubmit={handleUpdatePassword} style={{ display:'flex', flexDirection:'column', gap:18 }}>
+                <h2 style={{ color:'#e3e1e9', fontFamily:'Space Grotesk', fontSize:20 }}>Choose a new password</h2>
+                <input name="password" type="password" placeholder="New password (min. 8 characters)" required minLength={8} style={inputStyle} />
+                <input name="confirm" type="password" placeholder="Confirm new password" required minLength={8} style={inputStyle} />
+                <button type="submit" disabled={submitting || !isConfigured} style={{ width:'100%', background:'#00dbe7', color:'#00363a', fontWeight:700, padding:13, borderRadius:8, border:'none', cursor:submitting || !isConfigured ? 'not-allowed' : 'pointer', opacity:submitting || !isConfigured ? 0.65 : 1, fontFamily:'Space Grotesk', fontSize:16 }}>
+                  {submitting ? 'Please wait…' : 'Update Password'}
+                </button>
+              </form>
+            )}
+
+            {tab === 'login' && !resetMode && (
               <form onSubmit={handleLogin} style={{ display:'flex', flexDirection:'column', gap:18 }}>
                 <div>
                   <label style={{ fontFamily:'JetBrains Mono', fontSize:11, fontWeight:700, letterSpacing:'0.08em', color:'#849495', textTransform:'uppercase', display:'block', marginBottom:6 }}>Email</label>
@@ -201,14 +245,14 @@ const handleLogin = (e) => {
                 <label style={{ display:'flex', alignItems:'center', gap:8, fontSize:13, color:'#b9cacb', cursor:'pointer' }}>
                   <input type="checkbox" style={{ accentColor:'#00dbe7', width:16, height:16 }} /> Remember me
                 </label>
-                <button type="submit" style={{ width:'100%', background:'#00dbe7', color:'#00363a', fontWeight:700, padding:13, borderRadius:8, border:'none', cursor:'pointer', fontFamily:'Space Grotesk', fontSize:16, display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.2s' }}>
-                  <span className="material-symbols-outlined" style={{ fontSize:18 }}>login</span> Sign In
+                <button type="submit" disabled={submitting || !isConfigured} style={{ width:'100%', background:'#00dbe7', color:'#00363a', fontWeight:700, padding:13, borderRadius:8, border:'none', cursor:submitting || !isConfigured ? 'not-allowed' : 'pointer', opacity:submitting || !isConfigured ? 0.65 : 1, fontFamily:'Space Grotesk', fontSize:16, display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.2s' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize:18 }}>login</span> {submitting ? 'Please wait…' : 'Sign In'}
                 </button>
               </form>
             )}
 
             {/* SIGNUP */}
-            {tab === 'signup' && (
+            {tab === 'signup' && !resetMode && (
               <form onSubmit={handleSignup} style={{ display:'flex', flexDirection:'column', gap:18 }}>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
                   {[['firstName','First Name','Alex','person'],['lastName','Last Name','Dev','badge']].map(([name,label,ph,icon]) => (
@@ -263,21 +307,21 @@ const handleLogin = (e) => {
                   <input type="checkbox" required style={{ accentColor:'#00dbe7', width:16, height:16, marginTop:2, flexShrink:0 }} />
                   I agree to the <a href="#" style={{ color:'#00dbe7', textDecoration:'none' }}>Terms of Service</a> and <a href="#" style={{ color:'#00dbe7', textDecoration:'none' }}>Privacy Policy</a>
                 </label>
-                <button type="submit" style={{ width:'100%', background:'#00dbe7', color:'#00363a', fontWeight:700, padding:13, borderRadius:8, border:'none', cursor:'pointer', fontFamily:'Space Grotesk', fontSize:16, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
-                  <span className="material-symbols-outlined" style={{ fontSize:18 }}>rocket_launch</span> Create Account
+                <button type="submit" disabled={submitting || !isConfigured} style={{ width:'100%', background:'#00dbe7', color:'#00363a', fontWeight:700, padding:13, borderRadius:8, border:'none', cursor:submitting || !isConfigured ? 'not-allowed' : 'pointer', opacity:submitting || !isConfigured ? 0.65 : 1, fontFamily:'Space Grotesk', fontSize:16, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
+                  <span className="material-symbols-outlined" style={{ fontSize:18 }}>rocket_launch</span> {submitting ? 'Please wait…' : 'Create Account'}
                 </button>
               </form>
             )}
 
             {/* Divider */}
-            <div style={{ display:'flex', alignItems:'center', gap:12, color:'#849495', fontSize:13, margin:'22px 0' }}>
+            {!resetMode && <div style={{ display:'flex', alignItems:'center', gap:12, color:'#849495', fontSize:13, margin:'22px 0' }}>
               <div style={{ flex:1, height:1, background:'rgba(58,73,75,0.5)' }} />
               or continue with
               <div style={{ flex:1, height:1, background:'rgba(58,73,75,0.5)' }} />
-            </div>
+            </div>}
 
             {/* Google */}
-            <button onClick={handleGoogle} style={{ width:'100%', background:'rgba(26,27,33,0.9)', border:'1px solid rgba(58,73,75,0.6)', color:'#e3e1e9', padding:12, borderRadius:8, cursor:'pointer', fontFamily:'Geist', fontSize:15, display:'flex', alignItems:'center', justifyContent:'center', gap:10, transition:'all 0.2s' }}
+            {!resetMode && <button onClick={handleGoogle} disabled={submitting || !isConfigured} style={{ width:'100%', background:'rgba(26,27,33,0.9)', border:'1px solid rgba(58,73,75,0.6)', color:'#e3e1e9', padding:12, borderRadius:8, cursor:submitting || !isConfigured ? 'not-allowed' : 'pointer', opacity:submitting || !isConfigured ? 0.65 : 1, fontFamily:'Geist', fontSize:15, display:'flex', alignItems:'center', justifyContent:'center', gap:10, transition:'all 0.2s' }}
               onMouseOver={e => { e.currentTarget.style.borderColor='rgba(0,219,231,0.4)'; e.currentTarget.style.background='rgba(0,219,231,0.06)'; }}
               onMouseOut={e => { e.currentTarget.style.borderColor='rgba(58,73,75,0.6)'; e.currentTarget.style.background='rgba(26,27,33,0.9)'; }}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -287,15 +331,15 @@ const handleLogin = (e) => {
                 <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
               </svg>
               Continue with Google
-            </button>
+            </button>}
           </div>
 
-          <p style={{ textAlign:'center', marginTop:20, fontSize:13, color:'#849495' }}>
+          {!resetMode && <p style={{ textAlign:'center', marginTop:20, fontSize:13, color:'#849495' }}>
             {tab === 'login'
               ? <>Don't have an account? <button onClick={() => setTab('signup')} style={{ color:'#00dbe7', background:'none', border:'none', cursor:'pointer', fontWeight:600, fontSize:13 }}>Sign up free</button></>
               : <>Already have an account? <button onClick={() => setTab('login')} style={{ color:'#00dbe7', background:'none', border:'none', cursor:'pointer', fontWeight:600, fontSize:13 }}>Sign in</button></>
             }
-          </p>
+          </p>}
         </div>
       </main>
 
@@ -311,7 +355,7 @@ const handleLogin = (e) => {
             </div>
             <div style={{ display:'flex', gap:12 }}>
               <button onClick={() => setForgotOpen(false)} style={{ flex:1, padding:12, borderRadius:8, border:'1px solid rgba(58,73,75,0.6)', background:'none', color:'#b9cacb', cursor:'pointer', fontFamily:'Geist', fontSize:14 }}>Cancel</button>
-              <button onClick={() => { setForgotOpen(false); setSuccess(`If an account exists for ${forgotEmail}, a reset link has been sent.`); }} style={{ flex:1, padding:12, borderRadius:8, border:'none', background:'#00dbe7', color:'#00363a', fontWeight:700, cursor:'pointer', fontFamily:'Space Grotesk', fontSize:14 }}>Send Link</button>
+              <button onClick={handlePasswordReset} disabled={submitting || !isConfigured} style={{ flex:1, padding:12, borderRadius:8, border:'none', background:'#00dbe7', color:'#00363a', fontWeight:700, cursor:submitting || !isConfigured ? 'not-allowed' : 'pointer', opacity:submitting || !isConfigured ? 0.65 : 1, fontFamily:'Space Grotesk', fontSize:14 }}>{submitting ? 'Sending…' : 'Send Link'}</button>
             </div>
           </div>
         </div>

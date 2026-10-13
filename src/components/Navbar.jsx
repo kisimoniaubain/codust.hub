@@ -8,10 +8,15 @@ export default function Navbar({ activePage = '' }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    setDropdownOpen(false);
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setDropdownOpen(false);
+      navigate('/');
+    } catch (error) {
+      console.error('Could not sign out:', error);
+      window.alert('Could not sign out. Please check your connection and try again.');
+    }
   };
 
   const navLinks = [

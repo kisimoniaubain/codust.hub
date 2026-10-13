@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { TOPICS } from '../data/topicsData.js';
@@ -48,7 +49,7 @@ export default function CourseHub() {
 
         <div className="card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(1,1fr)', gap: 20, maxWidth: 1040, margin: '0 auto' }}>
           {filtered.map(t => (
-            <a key={t.name} href={`/topic/${t.slug}`} target="_blank" rel="noreferrer"
+            <Link key={t.name} to={`/topic/${t.slug}`}
               style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: 22, borderRadius: 18, textDecoration: 'none', color: 'inherit', background: 'rgba(18,19,24,0.78)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,219,231,0.14)', transition: 'all 0.22s' }}
               onMouseOver={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.borderColor='rgba(0,219,231,0.36)'; e.currentTarget.style.background='rgba(0,219,231,0.05)'; }}
               onMouseOut={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.borderColor='rgba(0,219,231,0.14)'; e.currentTarget.style.background='rgba(18,19,24,0.78)'; }}
@@ -66,7 +67,7 @@ export default function CourseHub() {
                   View more <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 

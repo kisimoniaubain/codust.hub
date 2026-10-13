@@ -8,6 +8,7 @@ import Login from './pages/Login.jsx';
 import TopicViewer from './pages/TopicViewer.jsx';
 import Profile from './pages/Profile.jsx';
 import BackToTopButton from './components/BackToTopButton.jsx';
+import { AuthProvider } from './hooks/useAuth.js';
 
 function ScrollToTopOnRouteChange() {
   const { pathname } = useLocation();
@@ -21,19 +22,21 @@ function ScrollToTopOnRouteChange() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTopOnRouteChange />
-      <BackToTopButton />
-      <Routes>
-        <Route path="/"                   element={<Home />} />
-        <Route path="/courses"            element={<CourseHub />} />
-        <Route path="/library"            element={<LearningLibrary />} />
-        <Route path="/lesson"             element={<Lesson />} />
-        <Route path="/login"              element={<Login />} />
-        <Route path="/topic/:slug"        element={<TopicViewer />} />
-        <Route path="/profile"            element={<Profile />} />
-        <Route path="*"                   element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTopOnRouteChange />
+        <BackToTopButton />
+        <Routes>
+          <Route path="/"                   element={<Home />} />
+          <Route path="/courses"            element={<CourseHub />} />
+          <Route path="/library"            element={<LearningLibrary />} />
+          <Route path="/lesson"             element={<Lesson />} />
+          <Route path="/login"              element={<Login />} />
+          <Route path="/topic/:slug"        element={<TopicViewer />} />
+          <Route path="/profile"            element={<Profile />} />
+          <Route path="*"                   element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

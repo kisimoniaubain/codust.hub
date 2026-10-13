@@ -50,6 +50,18 @@ Codust.hub/
 
 ## 🛠️ Getting Started
 
+### Shared Accounts (Supabase)
+
+The current website account system uses browser storage and does not share accounts between devices. To enable shared email/password accounts:
+
+1. In Supabase, open **Project Settings → API Keys** and copy the public `anon` or `publishable` key. Never use a `service_role` or secret key in the browser.
+2. Copy `.env.example` to `.env.local` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. The URL is `https://jrltijypujyqdxniczks.supabase.co` for the current project.
+3. In Supabase **Authentication → URL Configuration**, add `http://localhost:5173` for local development and `https://codust-hub.vercel.app` as a site/redirect URL.
+4. Add those same two variables to the Vercel project's environment variables, then redeploy the website. The mobile app displays this website, so it will use the new account system after redeployment without a new APK.
+5. To enable Google sign-in, configure Google under Supabase **Authentication → Providers → Google** and add Supabase's callback URL to the Google OAuth client.
+
+Supabase Auth stores accounts and securely handles passwords and sessions. Names are saved as auth user metadata. Existing accounts stored only in an individual browser or phone are not automatically migrated; create a new Supabase account to use shared sign-in. Learning progress and saved content are still stored locally and are not synced between devices by this account integration.
+
 ### **Frontend Only (Instant Preview)**
 
 1. **Open the dashboard:**
