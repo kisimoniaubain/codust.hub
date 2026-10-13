@@ -101,7 +101,7 @@ export default function Home() {
               <span className="material-symbols-outlined" style={{ color:'#849495', fontSize:18 }}>search</span>
               <input value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={handleSearch}
                 placeholder='"Python loops", "React hooks", "SQL joins" ...'
-                style={{ background:'transparent', fontSize:14, color:'#e3e1e9', border:'none', outline:'none', flex:1, fontFamily:'Geist' }}
+                style={{ background:'transparent', fontSize:14, color:'#e3e1e9', border:'none', outline:'none', flex:1, minWidth:0, fontFamily:'Geist' }}
               />
               <kbd style={{ fontFamily:'JetBrains Mono', fontSize:10, color:'#849495', background:'rgba(58,73,75,0.6)', padding:'2px 8px', borderRadius:4 }}>Enter ↵</kbd>
             </div>
@@ -250,7 +250,7 @@ export default function Home() {
 
       {/* Mobile bottom nav */}
       <nav className="mobile-nav" style={{ position:'fixed', bottom:0, width:'100%', zIndex:50, background:'rgba(13,14,19,0.95)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(58,73,75,0.4)', display:'flex', justifyContent:'space-around', alignItems:'center', height:60, padding:'0 16px' }}>
-        {[['home','Home','/'],['library_books','Learn','/library'],['code_blocks','Practice','/lesson'],['school','Courses','/courses']].map(([icon,label,to]) => (
+        {[['home','Home','/'],['school','Courses','/courses'],['code_blocks','Practice','/lesson'],['person','Profile','/profile']].map(([icon,label,to]) => (
           <Link key={label} to={to} style={{ display:'flex', flexDirection:'column', alignItems:'center', textDecoration:'none', color: to === '/' ? '#00dbe7' : '#849495', fontSize:9, fontFamily:'JetBrains Mono', fontWeight:700, letterSpacing:'0.05em' }}>
             <span className="material-symbols-outlined" style={{ fontSize:22 }}>{icon}</span>
             {label.toUpperCase()}

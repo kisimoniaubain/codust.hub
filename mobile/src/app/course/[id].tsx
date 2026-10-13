@@ -45,7 +45,7 @@ export default function CourseDetailScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: palette.bg },
-  container: { paddingHorizontal: 20, paddingTop: 64, paddingBottom: 32 },
+  container: { paddingHorizontal: 20, paddingTop: 24, paddingBottom: 32 },
   category: { marginBottom: 8, color: palette.primary, fontWeight: '700', letterSpacing: 1.1, textTransform: 'uppercase' },
   title: { color: palette.text, fontSize: 28, fontWeight: '800', marginBottom: 8 },
   description: { color: palette.muted, fontSize: 16, lineHeight: 24, marginBottom: 16 },

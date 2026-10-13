@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { TOPICS } from '../data/topicsData.js';
+import { useAuth } from '../hooks/useAuth.js';
+import { getSupabaseClient } from '../lib/supabase.js';
 
 const SAVED_VIDEOS_KEY = 'codust-saved-videos';
 const LEARNING_PROFILE_KEY = 'codust-learning-profile';
@@ -53,8 +55,114 @@ function getTrackedTopics(profileMap) {
 }
 
 export default function Profile() {
+  const { user } = useAuth();
   const [savedVideos, setSavedVideosState] = useState(() => getSavedVideos());
   const [learningProfile, setLearningProfile] = useState(() => getLearningProfile());
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarBusy, setAvatarBusy] = useState(false);
+  const [avatarError, setAvatarError] = useState('');
+
+  useEffect(() => {
+    let active = true;
+    setAvatarUrl('');
+    setAvatarError('');
+    if (!user?.avatarPath) return () => { active = false; };
+
+    getSupabaseClient().storage.from('profile-avatars')
+      .createSignedUrl(user.avatarPath, 60 * 60)
+      .then(({ data, error }) => {
+        if (error) throw error;
+        if (active) setAvatarUrl(data.signedUrl);
+      })
+      .catch((error) => {
+        console.error('Could not load the profile picture:', error);
+        if (active) setAvatarError('Could not load your profile picture. Please refresh and try again.');
+      });
+
+    return () => { active = false; };
+  }, [user?.id, user?.avatarPath]);
+
+  const handleAvatarChange = async (event) => {
+    const file = event.currentTarget.files?.[0];
+    event.currentTarget.value = '';
+    setAvatarError('');
+    if (!file) return;
+    if (!user) {
+      setAvatarError('Sign in to save a profile picture to your account.');
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      setAvatarError('Choose an image file.');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setAvatarError('Choose an image smaller than 10 MB.');
+      return;
+    }
+
+    setAvatarBusy(true);
+    let uploadedPath = '';
+    try {
+      const localUrl = URL.createObjectURL(file);
+      let image;
+      try {
+        image = await new Promise((resolve, reject) => {
+          const loadedImage = new Image();
+          loadedImage.onload = () => resolve(loadedImage);
+          loadedImage.onerror = () => reject(new Error('The selected image could not be opened.'));
+          loadedImage.src = localUrl;
+        });
+      } finally {
+        URL.revokeObjectURL(localUrl);
+      }
+
+      const scale = Math.min(1, 512 / Math.max(image.width, image.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.width * scale));
+      canvas.height = Math.max(1, Math.round(image.height * scale));
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('Image processing is not available on this device.');
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.84));
+      if (!blob) throw new Error('The image could not be prepared for upload.');
+
+      const supabase = getSupabaseClient();
+      uploadedPath = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+      const { error: uploadError } = await supabase.storage
+        .from('profile-avatars')
+        .upload(uploadedPath, blob, { contentType: 'image/jpeg', cacheControl: '3600' });
+      if (uploadError) throw uploadError;
+
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: { avatar_path: uploadedPath },
+      });
+      if (metadataError) {
+        const { error: cleanupError } = await supabase.storage.from('profile-avatars').remove([uploadedPath]);
+        if (cleanupError) console.error('Could not remove an unlinked profile picture:', cleanupError);
+        uploadedPath = '';
+        throw metadataError;
+      }
+
+      const { data, error: signedUrlError } = await supabase.storage
+        .from('profile-avatars')
+        .createSignedUrl(uploadedPath, 60 * 60);
+      if (signedUrlError) throw signedUrlError;
+      setAvatarUrl(data.signedUrl);
+
+      if (user.avatarPath && user.avatarPath !== uploadedPath) {
+        const { error: removeError } = await supabase.storage
+          .from('profile-avatars')
+          .remove([user.avatarPath]);
+        if (removeError) console.error('Could not remove the previous profile picture:', removeError);
+      }
+    } catch (error) {
+      console.error('Could not update the profile picture:', error);
+      setAvatarError(error instanceof Error ? error.message : 'Could not update the profile picture. Please try again.');
+    } finally {
+      setAvatarBusy(false);
+    }
+  };
 
   const persistLearningProfile = (nextProfile) => {
     setLearningProfile(nextProfile);
@@ -107,7 +215,29 @@ export default function Profile() {
   return (
     <div style={{ minHeight: '100vh', background: '#0d0e13', fontFamily: 'Geist, sans-serif' }}>
       <Navbar activePage="Profile" />
-      <main style={{ maxWidth: 1100, margin: '0 auto', padding: '96px 24px 56px' }}>
+      <main className="codust-profile-main" style={{ maxWidth: 1100, margin: '0 auto', padding: '96px 24px 56px' }}>
+        <section style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 30, padding: 18, borderRadius: 18, border: '1px solid rgba(0,219,231,0.18)', background: 'rgba(14,16,21,0.72)' }}>
+          <div style={{ width: 88, height: 88, borderRadius: '50%', flexShrink: 0, overflow: 'hidden', display: 'grid', placeItems: 'center', border: '2px solid rgba(0,219,231,0.55)', background: 'rgba(0,219,231,0.12)', color: '#00dbe7', fontFamily: 'Space Grotesk', fontSize: 30, fontWeight: 700 }}>
+            {avatarUrl
+              ? <img src={avatarUrl} alt="Your profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : (user?.firstName?.[0] || user?.email?.[0] || '?').toUpperCase()}
+          </div>
+          <div style={{ flex: '1 1 220px', minWidth: 0 }}>
+            <p style={{ margin: '0 0 4px', color: '#e3e1e9', fontFamily: 'Space Grotesk', fontSize: 20, fontWeight: 700 }}>
+              {user ? `${user.firstName} ${user.lastName}`.trim() || user.email : 'Your profile picture'}
+            </p>
+            <p style={{ margin: '0 0 12px', color: '#9eb0b3', fontSize: 13 }}>
+              Your picture is stored securely with your Supabase account and follows you across devices.
+            </p>
+            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 13px', borderRadius: 8, background: 'rgba(0,219,231,0.12)', border: '1px solid rgba(0,219,231,0.35)', color: '#00dbe7', fontSize: 13, fontWeight: 700, cursor: avatarBusy || !user ? 'not-allowed' : 'pointer', opacity: avatarBusy || !user ? 0.65 : 1 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>photo_camera</span>
+              {avatarBusy ? 'Uploading…' : avatarUrl ? 'Change picture' : 'Add profile picture'}
+              <input type="file" accept="image/*" onChange={handleAvatarChange} disabled={avatarBusy || !user} style={{ display: 'none' }} />
+            </label>
+            {!user && <span style={{ marginLeft: 10, color: '#9eb0b3', fontSize: 12 }}>Sign in to sync your picture.</span>}
+            {avatarError && <p role="alert" style={{ margin: '10px 0 0', color: '#ffb4ab', fontSize: 13 }}>{avatarError}</p>}
+          </div>
+        </section>
         <div style={{ marginBottom: 28 }}>
           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#fface8', letterSpacing: '0.1em', textTransform: 'uppercase' }}>MY_PROFILE</span>
           <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 38, color: '#e3e1e9', margin: '8px 0 6px' }}>Learning Profile</h1>

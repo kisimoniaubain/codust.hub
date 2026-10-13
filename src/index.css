@@ -657,3 +657,102 @@ body {
     min-height: 46px;
   }
 }
+
+.codust-topic-sidebar-toggle,
+.codust-topic-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .hero-grid > * {
+    min-width: 0;
+  }
+
+  .codust-profile-main {
+    padding: 84px 16px 88px !important;
+  }
+
+  .codust-profile-main > section[style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .codust-topic-enter {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    padding: 80px 12px 88px !important;
+    overflow-x: clip !important;
+  }
+
+  .codust-topic-sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    margin: 0 0 12px;
+    padding: 0 14px;
+    border: 1px solid rgba(0, 219, 231, 0.35);
+    border-radius: 10px;
+    background: rgba(0, 219, 231, 0.1);
+    color: #00dbe7;
+    font: 600 14px 'Geist', sans-serif;
+    cursor: pointer;
+  }
+
+  .codust-topic-sidebar-toggle .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .codust-topic-sidebar-backdrop {
+    position: fixed;
+    inset: 64px 0 0;
+    z-index: 1190;
+    width: 100%;
+    border: 0;
+    background: rgba(0, 0, 0, 0.58);
+  }
+
+  .codust-topic-sidebar-open .codust-topic-sidebar-backdrop {
+    display: block;
+  }
+
+  .codust-topic-enter .codust-topic-sidebar {
+    position: fixed !important;
+    top: 72px !important;
+    bottom: 12px;
+    left: 0;
+    z-index: 1200 !important;
+    width: min(340px, calc(100vw - 44px)) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 14px 14px 0 !important;
+    transform: translateX(calc(-100% - 8px));
+    transition: transform 0.25s ease;
+  }
+
+  .codust-topic-enter .codust-topic-sidebar-visible {
+    transform: translateX(0);
+  }
+
+  .codust-topic-enter .content-panel {
+    display: block;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100%;
+    overflow-x: hidden !important;
+    padding: 14px !important;
+  }
+
+  .codust-topic-enter .content-panel img,
+  .codust-topic-enter .content-panel iframe,
+  .codust-topic-enter .content-panel video,
+  .codust-topic-enter .content-panel pre {
+    max-width: 100%;
+  }
+
+  .codust-topic-enter .content-panel pre {
+    overflow-x: auto;
+  }
+}

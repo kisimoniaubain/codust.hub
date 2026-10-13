@@ -1437,6 +1437,7 @@ export default function TopicViewer() {
   const [iframeBlocked, setIframeBlocked] = useState(false);
   const [roadmapExpanded, setRoadmapExpanded] = useState(true);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeLocalDoc, setActiveLocalDoc] = useState(null);
   const [activeDsaSection, setActiveDsaSection] = useState(null);
   const [activeWebSection, setActiveWebSection] = useState(null);
@@ -6480,13 +6481,34 @@ CALL ADD(${aVal !== '' ? aVal : 'a'}, ${bVal !== '' ? bVal : 'b'})`}
       <div className="scanline" />
       <Navbar />
 
-      <main className="codust-topic-enter" style={{ flex: 1, display: 'flex', alignItems: 'flex-start', paddingTop: 64, gap: 16, padding: '64px 16px 24px', maxWidth: 1280, margin: '0 auto', width: '100%', overflow: 'visible' }}>
+      <main className={`codust-topic-enter${isSidebarOpen ? ' codust-topic-sidebar-open' : ''}`} style={{ flex: 1, display: 'flex', alignItems: 'flex-start', paddingTop: 64, gap: 16, padding: '64px 16px 24px', maxWidth: 1280, margin: '0 auto', width: '100%', overflow: 'visible' }}>
 
         {/* Roadmap sidebar */}
+        <button
+          type="button"
+          className="codust-topic-sidebar-toggle"
+          aria-expanded={isSidebarOpen}
+          onClick={() => setIsSidebarOpen(value => !value)}
+        >
+          <span className="material-symbols-outlined" aria-hidden="true">{isSidebarOpen ? 'close' : 'menu'}</span>
+          {isSidebarOpen ? 'Close learning steps' : 'Learning steps'}
+        </button>
+        <button
+          type="button"
+          className="codust-topic-sidebar-backdrop"
+          aria-label="Close learning steps"
+          onClick={() => setIsSidebarOpen(false)}
+          tabIndex={isSidebarOpen ? 0 : -1}
+        />
         <aside
-          className="codust-sidebar-scroll"
+          className={`codust-sidebar-scroll codust-topic-sidebar${isSidebarOpen ? ' codust-topic-sidebar-visible' : ''}`}
           onMouseEnter={() => setIsSidebarHovered(true)}
           onMouseLeave={() => setIsSidebarHovered(false)}
+          onClick={(event) => {
+            if (event.target instanceof Element && event.target.closest('a, button')) {
+              setIsSidebarOpen(false);
+            }
+          }}
           style={{ flex: '0 0 320px', width: 320, minWidth: 280, maxWidth: 340, background: 'rgba(18,19,24,0.7)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,219,231,0.15)', borderRadius: 8, display: 'flex', flexDirection: 'column', overflowX: 'hidden', overflowY: 'auto', position: 'sticky', top: 64, zIndex: 20, alignSelf: 'flex-start', maxHeight: 'calc(100vh - 64px)' }}
         >
 

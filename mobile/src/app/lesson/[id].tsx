@@ -56,7 +56,7 @@ export default function LessonScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: palette.bg },
-  container: { paddingHorizontal: 22, paddingTop: 64, paddingBottom: 32 },
+  container: { paddingHorizontal: 22, paddingTop: 24, paddingBottom: 32 },
   kicker: { color: palette.primary, fontWeight: '700', letterSpacing: 1.1, marginBottom: 8 },
   title: { color: palette.text, fontSize: 30, fontWeight: '800', marginBottom: 8 },
   meta: { color: palette.muted, marginBottom: 18 },

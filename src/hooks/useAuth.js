@@ -13,6 +13,7 @@ function mapUser(authUser) {
     lastName: metadata.last_name || metadata.full_name?.split(' ').slice(1).join(' ') || '',
     email: authUser.email || '',
     joinDate: authUser.created_at,
+    avatarPath: metadata.avatar_path || null,
   };
 }
 

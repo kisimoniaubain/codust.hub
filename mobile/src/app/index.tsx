@@ -10,6 +10,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { palette } from '../lib/theme';
 
@@ -107,6 +108,7 @@ export default function Index() {
   const showLaunchScreen = !hasLoaded.current;
 
   return (
+    <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
     <View style={styles.container}>
       <WebView
         ref={webView}
@@ -220,10 +222,12 @@ export default function Index() {
         )
       )}
     </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: palette.bg },
   container: { flex: 1, backgroundColor: palette.bg },
   webView: { flex: 1, backgroundColor: palette.bg },
   launchScreen: {

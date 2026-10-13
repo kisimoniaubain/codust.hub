@@ -25,7 +25,7 @@ export default function LeaderboardScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: palette.bg },
-  container: { paddingHorizontal: 20, paddingTop: 64, paddingBottom: 40 },
+  container: { paddingHorizontal: 20, paddingTop: 24, paddingBottom: 40 },
   heading: { color: palette.text, fontSize: 28, fontWeight: '800', marginBottom: 18 },
   row: {
     flexDirection: 'row',

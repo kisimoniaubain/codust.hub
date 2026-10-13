@@ -64,7 +64,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: palette.bg },
-  container: { paddingHorizontal: 20, paddingTop: 64, paddingBottom: 32 },
+  container: { paddingHorizontal: 20, paddingTop: 24, paddingBottom: 32 },
   topRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

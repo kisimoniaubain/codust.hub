@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { BookOpen, Home, Trophy, User, CircuitBoard } from 'lucide-react-native';
+import { BookOpen, Home, User, CircuitBoard } from 'lucide-react-native';
 import { palette } from '../../lib/theme';
 
 export default function TabsLayout() {
@@ -40,17 +40,16 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="leaderboard"
-        options={{
-          title: 'Board',
-          tabBarIcon: ({ color, size }) => <Trophy color={color} size={size} />,
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="leaderboard"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
